@@ -122,8 +122,24 @@ void TheRani::execute(const string& line) {
         int experiment2 = readInt(stream);
         int sublow = readInt(stream);
         int subhigh = readInt(stream);
-
+        //setting string of subject's new location
+        for(int i=sublow; i<=subhigh; i++){
+            subject_history[experiment2][subject_counts[experiment2]] = subject_history[experiment1][i] + " " + string(experiment1);
+            subject_counts[experiment2]++;
+        }
+        //figuring out subjects moved and lowering subject_counts
+        int moved = subhigh - sublow + 1;
+        subject_counts[experiment1] -= moved;
+        //now moving subjects over in experiment that lost subjects
+        for(int i=sublow; i<=subject_counts[experiment1];i++){
+            subject_history[experiment1][i] = subject_history[experiment1][i+moved];
+        }
     } else if (command == "QUERY"){
+        //getting arguments in variables and extracting history
+        int experiment = readInt(stream);
+        int nth = readInt(stream);
+        history = subject_history[experiment][nth];
+        //filtering and outputting the history
         
     }else{
         
