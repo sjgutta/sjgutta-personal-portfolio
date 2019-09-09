@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <exception>
 #include <string>
 
 using namespace std;
@@ -12,7 +13,6 @@ public:
     ~TheRani();
     // Call execute and handles exceptions
     void main();
-
 private:
     int experiment_count;       // You will need to track the number of experiments
     int* subject_counts;        // For each, the number of subjects
@@ -27,45 +27,51 @@ private:
 
     // Possible helper: deallocate all current members
     void destroy_current();
+        
+    //helper function to read stream to int
+    int readInt(stringstream& ss);
 };
 
 TheRani::TheRani(char* input_path, char* output_path) : experiment_count(0), input(input_path), output(output_path) {
-    
-
+    subject_counts = NULL;
+    subject_history = NULL;
+    subject_total=0;
 }
 
 TheRani::~TheRani() {
-
+    destroy_current();
 }
 
 //deallocates all dynamically allocated arrays
 void TheRani::destroy_current(){
-    if subject_history != NULL{
-        for(int i=0;i<experiment_count;i++){
+    if (subject_history != NULL){
+        for(int i=0;i<experiment_count+1;i++){
             delete [] subject_history[i];
         }
-        delete [] subject_history
+        delete [] subject_history;
     }
-    if subject_counts != NULL{
+    if (subject_counts != NULL){
         delete [] subject_counts;
     }
 }
 // Possible helper: read an integer argument from a stream
-void readInt(stringsteam stream){
+int TheRani::readInt(stringstream& ss){
     int temp;
-    stream >> temp;
+    ss >> temp;
     return temp;
 }
 
 
 void TheRani::main() {
     string line;
+    int line_number = 1;
     while (getline(input, line)) {
         try {
             this->execute(line);
-        } catch(exception& e) {
+            line_number+=1;
+        }catch(exception& e) {
             // If you use exceptions, make sure the line number is printed here
-            this->output << "Error on line ?: " << e.what() << endl;
+            this->output << "Error on line " << line_number << ": " << e.what() << endl;
         }
     }
 }
@@ -82,67 +88,78 @@ void TheRani::execute(const string& line) {
             throw out_of_range("argument out of range");
         }
         subject_total = subject_pool_count;
+        experiment_count=0;
         // Your code here
-        if subject_history{
+        if(subject_history){
             destroy_current();
         }
-        subject_history = new string*[experiment_count+1];
+        subject_history = new string*[1];
         subject_history[0] = new string[subject_pool_count];
         subject_counts = new int[experiment_count+1];
         subject_counts[0] = subject_pool_count;
     } else if (command == "ADD"){
-        //incrementing the number of experiments
-        experiment_count++;
         //creating temporary new arrays for the revised experiment set
-        string** temp_subject_history = new string*[experiment_count+1];
-        for(int i=0; i<experiment_count+1; i++){
+        string** temp_subject_history = new string*[experiment_count+2];
+        for(int i=0; i<experiment_count+2; i++){
             temp_subject_history[i] = new string[subject_total];
         }
-        int* temp_subject_counts = new int[experiment_count+1];
+        int* temp_subject_counts = new int[experiment_count+2];
         //copying over old experiment set info.
         //loop through old subject history and into the temp one
-        for(int i=0; i<experiment_count; i++){
+        for(int i=0; i<experiment_count+1; i++){
             for(int j=0; j<subject_counts[i];j++){
                 temp_subject_history[i][j] = subject_history[i][j];
             }
         }
-        for(int i=0; i<experiment_count;i++){
+        for(int i=0; i<experiment_count+1;i++){
             temp_subject_counts[i] = subject_counts[i];
         }
         //setting new experiment subject count to 0
-        temp_subject_counts[experiment_count-1] = 0;
+        temp_subject_counts[experiment_count+1] = 0;
         //deleting old experiment set with helper function
         destroy_current();
         //setting data members equal to new experiment set
         subject_history = temp_subject_history;
         subject_counts = temp_subject_counts;
+        //incrementing the number of experiments
+        experiment_count++;
     } else if (command == "MOVE"){
         //getting arguments into variables
         int experiment1 = readInt(stream);
         int experiment2 = readInt(stream);
         int sublow = readInt(stream);
         int subhigh = readInt(stream);
+        stringstream convert;
+        convert << experiment2;
+        string experiment2_string = convert.str();
         //setting string of subject's new location
         for(int i=sublow; i<=subhigh; i++){
-            subject_history[experiment2][subject_counts[experiment2]] = subject_history[experiment1][i] + " " + string(experiment1);
+            subject_history[experiment2][subject_counts[experiment2]] = subject_history[experiment1][i] + " " + experiment2_string;
             subject_counts[experiment2]++;
         }
         //figuring out subjects moved and lowering subject_counts
         int moved = subhigh - sublow + 1;
         subject_counts[experiment1] -= moved;
         //now moving subjects over in experiment that lost subjects
-        for(int i=sublow; i<=subject_counts[experiment1];i++){
+        for(int i=sublow; i<subject_counts[experiment1];i++){
             subject_history[experiment1][i] = subject_history[experiment1][i+moved];
         }
     } else if (command == "QUERY"){
         //getting arguments in variables and extracting history
         int experiment = readInt(stream);
         int nth = readInt(stream);
-        history = subject_history[experiment][nth];
+        string history = subject_history[experiment][nth];
         //filtering and outputting the history
-        
+        stringstream ss(history);
+        int temp;
+        while(ss>>temp){
+            if(temp!=0){
+                output << temp << " ";
+            }
+        }
+        output << endl;
     }else{
-        
+        throw runtime_error("command does not exist");
     }// else if (more conditions) { ...
 }
 
