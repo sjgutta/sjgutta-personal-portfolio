@@ -94,7 +94,7 @@ void TheRani::execute(const string& line) {
         throw runtime_error("no subjects yet");
     } else if (command == "START") {   // This code should be edited for error checking
         int subject_pool_count;
-        stream >> subject_pool_count;
+        subject_pool_count = readInt(stream);
         if (subject_pool_count < 0) {
             throw out_of_range("argument out of range");
         }
@@ -146,7 +146,7 @@ void TheRani::execute(const string& line) {
         convert << experiment2;
         string experiment2_string = convert.str();
         //checking if any arguments are negative
-        if((experiment1<0||experiment2<0)||(sublow<0||subhigh||0){
+        if((experiment1<0||experiment2<0)||(sublow<0||subhigh||0)){
             throw invalid_argument("argument out of range");
         }
         //checking if any arguments are nonexistent experiments
@@ -161,14 +161,14 @@ void TheRani::execute(const string& line) {
         if(sublow>subhigh){
             throw logic_error("invalid range of subjects to move");
         }
+        //figuring out subjects moved and lowering subject_counts
+        int moved = subhigh - sublow + 1;
+        subject_counts[experiment1] -= moved;
         //setting string of subject's new location
         for(int i=sublow; i<=subhigh; i++){
             subject_history[experiment2][subject_counts[experiment2]] = subject_history[experiment1][i] + " " + experiment2_string;
             subject_counts[experiment2]++;
         }
-        //figuring out subjects moved and lowering subject_counts
-        int moved = subhigh - sublow + 1;
-        subject_counts[experiment1] -= moved;
         //now moving subjects over in experiment that lost subjects
         for(int i=sublow; i<subject_counts[experiment1];i++){
             subject_history[experiment1][i] = subject_history[experiment1][i+moved];
