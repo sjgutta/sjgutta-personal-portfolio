@@ -18,6 +18,7 @@ private:
     int* subject_counts;        // For each, the number of subjects
     string** subject_history;   // And for each subject, their history
     int subject_total;
+    bool started; //data member to track if experiments have been started. Helps with error-handling
 
     ifstream input;             // Input file stream
     ofstream output;            // Output file stream
@@ -36,6 +37,7 @@ TheRani::TheRani(char* input_path, char* output_path) : experiment_count(0), inp
     subject_counts = NULL;
     subject_history = NULL;
     subject_total=0;
+    started = false;
 }
 
 TheRani::~TheRani() {
@@ -57,7 +59,15 @@ void TheRani::destroy_current(){
 // Possible helper: read an integer argument from a stream
 int TheRani::readInt(stringstream& ss){
     int temp;
+    //checking if enough arguments were given based on if stream is empty
+    if(ss.rdbuf()->in_avail() == 0){
+        throw invalid_argument("too few arguments");
+    }
     ss >> temp;
+    //checking if an invalid argument type was given
+    if(ss.fail()){
+        throw invalid_argument("expected integer arument");
+    }
     return temp;
 }
 
@@ -80,8 +90,9 @@ void TheRani::execute(const string& line) {
     string command;
     stringstream stream(line);  // Initialize the stream with the line
     stream >> command;          // Read the first word, which is the command
-
-    if (command == "START") {   // This code should be edited for error checking
+    if (!started&&command!="START"){
+        throw runtime_error("no subjects yet");
+    } else if (command == "START") {   // This code should be edited for error checking
         int subject_pool_count;
         stream >> subject_pool_count;
         if (subject_pool_count < 0) {
@@ -97,6 +108,8 @@ void TheRani::execute(const string& line) {
         subject_history[0] = new string[subject_pool_count];
         subject_counts = new int[experiment_count+1];
         subject_counts[0] = subject_pool_count;
+        //setting started indicator to true
+        started =  true;
     } else if (command == "ADD"){
         //creating temporary new arrays for the revised experiment set
         string** temp_subject_history = new string*[experiment_count+2];
@@ -132,6 +145,22 @@ void TheRani::execute(const string& line) {
         stringstream convert;
         convert << experiment2;
         string experiment2_string = convert.str();
+        //checking if any arguments are negative
+        if((experiment1<0||experiment2<0)||(sublow<0||subhigh||0){
+            throw invalid_argument("argument out of range");
+        }
+        //checking if any arguments are nonexistent experiments
+        if(experiment1>experiment_count||experiment2>experiment_count){
+            throw invalid_argument("argument out of range");
+        }
+        //checking if any number in range arguments is within number of subjects for the experiment
+        if(sublow>=subject_counts[experiment1]||subhigh>=subject_counts[experiment1]){
+            throw invalid_argument("argument out of range");
+        }
+        //checking if reasonable range of subjects to move was given
+        if(sublow>subhigh){
+            throw logic_error("invalid range of subjects to move");
+        }
         //setting string of subject's new location
         for(int i=sublow; i<=subhigh; i++){
             subject_history[experiment2][subject_counts[experiment2]] = subject_history[experiment1][i] + " " + experiment2_string;
@@ -148,6 +177,18 @@ void TheRani::execute(const string& line) {
         //getting arguments in variables and extracting history
         int experiment = readInt(stream);
         int nth = readInt(stream);
+        //checking if any arguments were negative
+        if(experiment<0||nth<0){
+            throw invalid_argument("argument out of range");
+        }
+        //checking if experiment exists
+        if(experiment>experiment_count){
+            throw invalid_argument("argument out of range");
+        }
+        //checking if the subject exists
+        if(nth>=subject_counts[experiment]){
+            throw invalid_argument("argument out of range");
+        }
         string history = subject_history[experiment][nth];
         //filtering and outputting the history
         stringstream ss(history);
