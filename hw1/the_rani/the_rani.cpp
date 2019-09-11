@@ -146,7 +146,10 @@ void TheRani::execute(const string& line) {
         convert << experiment2;
         string experiment2_string = convert.str();
         //checking if any arguments are negative
-        if((experiment1<0||experiment2<0)||(sublow<0||subhigh||0)){
+        if(experiment1<0||experiment2<0){
+            throw invalid_argument("argument out of range");
+        }
+        if(sublow<0||subhigh<0){
             throw invalid_argument("argument out of range");
         }
         //checking if any arguments are nonexistent experiments
