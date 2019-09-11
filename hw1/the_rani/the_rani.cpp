@@ -66,7 +66,7 @@ int TheRani::readInt(stringstream& ss){
     ss >> temp;
     //checking if an invalid argument type was given
     if(ss.fail()){
-        throw invalid_argument("expected integer arument");
+        throw invalid_argument("expected integer argument");
     }
     return temp;
 }
@@ -82,6 +82,7 @@ void TheRani::main() {
         }catch(exception& e) {
             // If you use exceptions, make sure the line number is printed here
             this->output << "Error on line " << line_number << ": " << e.what() << endl;
+            return;
         }
     }
 }
