@@ -92,7 +92,8 @@ void TheRani::main() {
             line_number+=1;
         }catch(exception& e) {
             // If you use exceptions, make sure the line number is printed here
-            this->output << "Error on line " << line_number << ": " << e.what() << endl;
+            this->output << "Error on line " << line_number << 
+            ": " << e.what() << endl;
             return;
         }
     }
@@ -100,11 +101,11 @@ void TheRani::main() {
 
 void TheRani::execute(const string& line) {
     string command;
-    stringstream stream(line);  // Initialize the stream with the line
-    stream >> command;          // Read the first word, which is the command
+    stringstream stream(line);
+    stream >> command;      
     if (!started&&command!="START"){
         throw runtime_error("no subjects yet");
-    } else if (command == "START") {   // This code should be edited for error checking
+    } else if (command == "START") { 
         int subject_pool_count;
         subject_pool_count = readInt(stream);
         if (subject_pool_count < 0) {
@@ -170,7 +171,8 @@ void TheRani::execute(const string& line) {
         }
         //checking if any number in range arguments 
         //is within number of subjects for the experiment
-        if(sublow>=subject_counts[experiment1]||subhigh>=subject_counts[experiment1]){
+        if(sublow>=subject_counts[experiment1]||
+            subhigh>=subject_counts[experiment1]){
             throw invalid_argument("argument out of range");
         }
         //checking if reasonable range of subjects to move was given
@@ -188,7 +190,8 @@ void TheRani::execute(const string& line) {
         }
         //now moving subjects over in experiment that lost subjects
         for(int i=sublow; i<subject_counts[experiment1];i++){
-            subject_history[experiment1][i] = subject_history[experiment1][i+moved];
+            subject_history[experiment1][i] = 
+                subject_history[experiment1][i+moved];
         }
     } else if (command == "QUERY"){
         //getting arguments in variables and extracting history
