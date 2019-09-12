@@ -204,6 +204,10 @@ void TheRani::execute(const string& line) {
         //getting arguments in variables and extracting history
         int experiment = readInt(stream);
         int nth = readInt(stream);
+        //checking if any subjects
+        if(subject_total==0){
+            throw invalid_argument("argument out of range");
+        }
         //checking if any arguments were negative
         if(experiment<0||nth<0){
             throw invalid_argument("argument out of range");
