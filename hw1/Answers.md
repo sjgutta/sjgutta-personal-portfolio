@@ -21,13 +21,15 @@ use the git command line interface in course VM, which is a Linux
 1. git add hw1q2b.cpp
 2. git log -3
 ## Part D
-* Git will not commit the three files because the user did not add the required message for the commit.
+* Git will not commit the three files because the user did 
+not add the required message for the commit.
 ## Part E
 * git clone git@github.com:usc-csci104-fall2019/hw-gutta.git
 #
 # More Git Questions
 ## Part A
-* README.MD is unmodified assuming the repo was initiliazed with a README
+* README.MD is unmodified assuming the repo was 
+initiliazed with a README
 ## Part B
 * README.MD is now modified and fun_problem.txt is untracked
 ## Part C
@@ -35,7 +37,18 @@ use the git command line interface in course VM, which is a Linux
 ## Part D
 * Both files are now modified
 ## Part E
-* README.MD is staged again while fun_problem.txt is now Unmodified and committed within its branch.
-* The contents of fun_problem.txt are empty because we just checked out the version of the file out that was on the server. Since we never committed the addition of the "So far, so good" to the file, only an empty file is checked out. 
+* README.MD is staged again while fun_problem.txt is 
+now Unmodified and committed within its branch.
+* The contents of fun_problem.txt are empty because 
+we just checked out the version of the file out that 
+was on the server. Since we never committed the addition 
+of the "So far, so good" to the file, only an empty 
+file is checked out. 
 ## Part F
-* README.md now has some changes that staged for commit and also some changes that are not staged for commit. It is kind of like a combination of staged and Modified. This is because we staged the previous changes but never committed them. Since then, another changed was made but never staged. Thus, the different changes have been left in different states.
+* README.md now has some changes that staged for 
+commit and also some changes that are not staged for 
+commit. It is kind of like a combination of staged and 
+Modified. This is because we staged the previous changes 
+but never committed them. Since then, another changed 
+was made but never staged. Thus, the different changes 
+have been left in different states.

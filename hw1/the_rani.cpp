@@ -35,7 +35,8 @@ private:
     int readInt(stringstream& ss);
 };
 
-TheRani::TheRani(char* input_path, char* output_path) : experiment_count(0), input(input_path), output(output_path) {
+TheRani::TheRani(char* input_path, char* output_path) : experiment_count(0), 
+input(input_path), output(output_path) {
     subject_counts = NULL;
     subject_history = NULL;
     subject_total=0;
@@ -179,7 +180,8 @@ void TheRani::execute(const string& line) {
         subject_counts[experiment1] -= moved;
         //setting string of subject's new location
         for(int i=sublow; i<=subhigh; i++){
-            subject_history[experiment2][subject_counts[experiment2]] = subject_history[experiment1][i] + " " + experiment2_string;
+            subject_history[experiment2][subject_counts[experiment2]] = 
+            subject_history[experiment1][i] + " " + experiment2_string;
             subject_counts[experiment2]++;
         }
         //now moving subjects over in experiment that lost subjects
