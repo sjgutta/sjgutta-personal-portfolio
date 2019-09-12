@@ -4,6 +4,7 @@
 #include <stdexcept>
 #include <exception>
 #include <string>
+#include <math.h>
 
 using namespace std;
 
@@ -58,14 +59,20 @@ void TheRani::destroy_current(){
 }
 // Possible helper: read an integer argument from a stream
 int TheRani::readInt(stringstream& ss){
-    int temp;
+    double temp;
     //checking if enough arguments were given based on if stream is empty
-    if(ss.rdbuf()->in_avail() == 0){
+    if(ss.rdbuf()->in_avail() == 1){
         throw invalid_argument("too few arguments");
     }
     ss >> temp;
     //checking if an invalid argument type was given
+    //first checking if string based on ss failing
     if(ss.fail()){
+        throw invalid_argument("expected integer argument");
+    }
+    double intpart;
+    //then checking if a double was given or an actual integer based on the decimal part
+    if(modf(temp, &intpart)!=0){
         throw invalid_argument("expected integer argument");
     }
     return temp;
