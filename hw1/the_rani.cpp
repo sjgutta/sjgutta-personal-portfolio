@@ -73,7 +73,8 @@ int TheRani::readInt(stringstream& ss){
         throw invalid_argument("expected integer argument");
     }
     double intpart;
-    //then checking if a double was given or an actual integer based on the decimal part
+    //then checking if a double was given or 
+    //an actual integer based on the decimal part
     if(modf(temp, &intpart)!=0){
         throw invalid_argument("expected integer argument");
     }
@@ -167,7 +168,8 @@ void TheRani::execute(const string& line) {
         if(experiment1>experiment_count||experiment2>experiment_count){
             throw invalid_argument("argument out of range");
         }
-        //checking if any number in range arguments is within number of subjects for the experiment
+        //checking if any number in range arguments 
+        //is within number of subjects for the experiment
         if(sublow>=subject_counts[experiment1]||subhigh>=subject_counts[experiment1]){
             throw invalid_argument("argument out of range");
         }
