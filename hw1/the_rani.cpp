@@ -94,7 +94,6 @@ void TheRani::main() {
             // If you use exceptions, make sure the line number is printed here
             this->output << "Error on line " << line_number << 
             ": " << e.what() << endl;
-            return;
         }
     }
 }
@@ -118,7 +117,11 @@ void TheRani::execute(const string& line) {
             destroy_current();
         }
         subject_history = new string*[1];
-        subject_history[0] = new string[subject_pool_count];
+        if(subject_pool_count==0){
+            subject_history[0] = new string[1];
+        }else{
+            subject_history[0] = new string[subject_pool_count];
+        }
         subject_counts = new int[experiment_count+1];
         subject_counts[0] = subject_pool_count;
         //setting started indicator to true
@@ -127,7 +130,11 @@ void TheRani::execute(const string& line) {
         //creating temporary new arrays for the revised experiment set
         string** temp_subject_history = new string*[experiment_count+2];
         for(int i=0; i<experiment_count+2; i++){
-            temp_subject_history[i] = new string[subject_total];
+            if(subject_total==0){
+                temp_subject_history[i] = new string[1];
+            }else{
+                temp_subject_history[i] = new string[subject_total];
+            }
         }
         int* temp_subject_counts = new int[experiment_count+2];
         //copying over old experiment set info.
