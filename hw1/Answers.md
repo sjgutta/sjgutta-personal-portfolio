@@ -12,7 +12,9 @@
 # 
 # Git Quiz
 ## Part A
-* Only number 3 is supported because Lab 1 says we can only use the git command line interface in course VM, which is a Linux (ubuntu) terminal. 3 is also not a GUI-based app.
+* Only number 3 is supported because Lab 1 says we can only 
+use the git command line interface in course VM, which is a Linux 
+(ubuntu) terminal. 3 is also not a GUI-based app.
 ## Part B
 * Numbers 1 and 2 should be avoided.
 ## Part C

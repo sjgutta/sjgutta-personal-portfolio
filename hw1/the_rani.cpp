@@ -19,7 +19,8 @@ private:
     int* subject_counts;        // For each, the number of subjects
     string** subject_history;   // And for each subject, their history
     int subject_total;
-    bool started; //data member to track if experiments have been started. Helps with error-handling
+    bool started; //data member to track if experiment started
+
 
     ifstream input;             // Input file stream
     ofstream output;            // Output file stream
@@ -75,7 +76,8 @@ int TheRani::readInt(stringstream& ss){
     if(modf(temp, &intpart)!=0){
         throw invalid_argument("expected integer argument");
     }
-    return temp;
+    int result = int(temp);
+    return result;
 }
 
 
