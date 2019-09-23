@@ -38,11 +38,11 @@ private:
 //class for variable with a name and index
 class ArrayVariable : public NumericExpression {
 public:
-    ArrayVariable(int value, int index, std::string name);
+    ArrayVariable(int value, NumericExpression* index, std::string name);
     ~ArrayVariable();
     virtual std::string format() const;
 private:
-    int index;
+    NumericExpression* index;
     std::string name;
 };
 

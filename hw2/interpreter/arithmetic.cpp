@@ -82,9 +82,8 @@ Variable::Variable(int value, string name): NumericExpression(value){
     this->name = name;
 }
 
-ArrayVariable::ArrayVariable(int value, int index, string name): NumericExpression(value){
+ArrayVariable::ArrayVariable(int value, NumericExpression* index, string name): NumericExpression(value), index(index){
     this->value = value;
-    this->index = index;
     this->name = name;
 }
 
@@ -98,7 +97,7 @@ string Variable::format() const{
 }
 
 string ArrayVariable::format() const{
-    return this->name + "[" + to_string(this->index) + "]";
+    return this->name + "[" + this->index->format() + "]";
 }
 
 //destructor functions for numeral, variable, and array variables
