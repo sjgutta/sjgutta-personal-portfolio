@@ -82,6 +82,14 @@ Variable::Variable(int value, string name): NumericExpression(value){
     this->name = name;
 }
 
+Variable::Variable(string name): name(name){
+    
+}
+
+ArrayVariable::ArrayVariable(NumericExpression* index, string name): index(index), name(name){
+    
+}
+
 ArrayVariable::ArrayVariable(int value, NumericExpression* index, string name): NumericExpression(value), index(index){
     this->value = value;
     this->name = name;

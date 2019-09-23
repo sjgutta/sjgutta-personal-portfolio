@@ -28,6 +28,7 @@ public:
 //class for variable with a name
 class Variable : public NumericExpression {
 public:
+    Variable(std::string name);
     Variable(int value, std::string name);
     ~Variable();
     virtual std::string format() const;
@@ -38,6 +39,7 @@ private:
 //class for variable with a name and index
 class ArrayVariable : public NumericExpression {
 public:
+    ArrayVariable(NumericExpression* index, std::string name);
     ArrayVariable(int value, NumericExpression* index, std::string name);
     ~ArrayVariable();
     virtual std::string format() const;
