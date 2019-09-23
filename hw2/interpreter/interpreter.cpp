@@ -7,7 +7,9 @@ Interpreter::Interpreter(std::istream& in) {
 }
 
 Interpreter::~Interpreter() {
-
+    for(int i=0; i<int(program.size());i++){
+        delete program[i];
+    }
 }
 
 void Interpreter::parse(std::istream& in) {
@@ -15,13 +17,15 @@ void Interpreter::parse(std::istream& in) {
     while (getline(in, line)) {
         size_t line_number;
         std::stringstream stream(line);
-        stream >> line_number;
+        stream >> std::skipws >> line_number;
 
         std::string command;
         stream >> command;
 
         if(command == "PRINT"){
-
+            NumericExpression* output = ParseNumeric(stream);
+            Command* result = new PrintCommand(line_number, output);
+            program.push_back(result);
         }else if(command == "LET"){
 
         }else if(command == "GOTO"){
@@ -39,14 +43,15 @@ void Interpreter::parse(std::istream& in) {
 }
 
 NumericExpression* Interpreter::ParseNumeric(std::stringstream& stream){
-    char first;
+    char first = 0;
     stream >> first;
-    if(first == '-' or isdigit(first)){
-        NumericExpression* result = ParseConstant(stream);
+    if(first == '-' || isdigit(first)){
+        int value = first - '0';
+        NumericExpression* result = ParseConstant(stream, value);
         return result;
     }else if(first == '('){
         NumericExpression* left = ParseNumeric(stream);
-        char binaryoperator;
+        char binaryoperator = 0;
         stream >> binaryoperator;
         NumericExpression* right = ParseNumeric(stream);
         NumericExpression* result = NULL;
@@ -70,9 +75,7 @@ NumericExpression* Interpreter::ParseNumeric(std::stringstream& stream){
     }
 }
 
-NumericExpression* Interpreter::ParseConstant(std::stringstream& stream){
-    int value;
-    stream >> value;
+NumericExpression* Interpreter::ParseConstant(std::stringstream& stream, int value){
     NumericExpression* result = new Numeral(value);
     return result;
 }
@@ -109,5 +112,8 @@ NumericExpression* Interpreter::ParseVariableName(std::stringstream& stream){
 
 
 void Interpreter::write(std::ostream& out) {
-
+    for(int i=0; i<int(program.size()); i++){
+        std::string write_out = program[i]->format();
+        std::cout << write_out << std::endl;
+    }
 }

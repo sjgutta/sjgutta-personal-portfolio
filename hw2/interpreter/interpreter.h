@@ -13,7 +13,7 @@ public:
 
     void write(std::ostream& out);
     NumericExpression* ParseNumeric(std::stringstream& stream);
-    NumericExpression* ParseConstant(std::stringstream& stream);
+    NumericExpression* ParseConstant(std::stringstream& stream, int value);
     NumericExpression* ParseVariableName(std::stringstream& stream);
 private:
     void parse(std::istream& in);
