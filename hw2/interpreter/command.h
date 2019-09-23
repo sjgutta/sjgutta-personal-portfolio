@@ -29,12 +29,12 @@ private:
 //class for Let command
 class LetCommand : public Command {
 public:
-    LetCommand(int line, NumericExpression* setValue, Variable* variable);
+    LetCommand(int line, NumericExpression* setValue, NumericExpression* variable);
     ~LetCommand();
     virtual std::string format() const;
 private:
     NumericExpression* setValue;
-    Variable* variable;
+    NumericExpression* variable;
 };
 
 //class for Let array command

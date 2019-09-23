@@ -27,7 +27,7 @@ string PrintCommand::format() const {
 }
 
 //let command functions defined
-LetCommand::LetCommand(int line, NumericExpression* setValue, Variable* variable) : Command(line), setValue(setValue), variable(variable) {
+LetCommand::LetCommand(int line, NumericExpression* setValue, NumericExpression* variable) : Command(line), setValue(setValue), variable(variable) {
 
 }
 
@@ -78,7 +78,7 @@ IfThenCommand::~IfThenCommand() {
 }
 
 string IfThenCommand::format() const {
-    return to_string(this->getLine()) + " " + "IF" + " [" + this->conditional->format() + "] THEN <" + to_string(this->destination) + ">";
+    return to_string(this->getLine()) + " " + "IF " + this->conditional->format() + " THEN <" + to_string(this->destination) + ">";
 }
 
 

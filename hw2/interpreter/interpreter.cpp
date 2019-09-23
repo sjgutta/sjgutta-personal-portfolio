@@ -27,11 +27,8 @@ void Interpreter::parse(std::istream& in) {
             Command* result = new PrintCommand(line_number, output);
             program.push_back(result);
         }else if(command == "LET"){
-            std::string name;
-            stream >> name;
+            NumericExpression* variable = ParseVariableName(stream);
             NumericExpression* setValue = ParseNumeric(stream);
-            int value = setValue->getValue();
-            Variable* variable = new Variable(value, name);
             Command* result = new LetCommand(line_number, setValue, variable);
             program.push_back(result);
         }else if(command == "GOTO"){
@@ -79,12 +76,15 @@ void Interpreter::parse(std::istream& in) {
 
 NumericExpression* Interpreter::ParseNumeric(std::stringstream& stream){
     char first = 0;
-    stream >> first;
+    stream >> std::ws;
+    first = stream.peek();
     if(first == '-' || isdigit(first)){
-        int value = first - '0';
+        int value;
+        stream >> value;
         NumericExpression* result = ParseConstant(stream, value);
         return result;
     }else if(first == '('){
+        stream >> first;
         NumericExpression* left = ParseNumeric(stream);
         char binaryoperator = 0;
         stream >> binaryoperator;
@@ -117,17 +117,22 @@ NumericExpression* Interpreter::ParseConstant(std::stringstream& stream, int val
 
 NumericExpression* Interpreter::ParseVariableName(std::stringstream& stream){
     char next;
-    std::string name;
+    std::string name = "";
+    //getting rid of leading whitespace
+    stream >> std::ws;
     //building up variable name until invalid character reached
     for(int i=0; i<8; i++){
         next = stream.peek();
         if(isupper(next)){
             stream >> next;
-            name += std::to_string(next);
+            std::string s(1, next);
+            name  = name + s;
         }else{
             break;
         }
     }
+    //getting rid of whitespace again
+    stream >> std::ws;
     //checking if variable is an array variable
     next = stream.peek();
     if(next=='['){

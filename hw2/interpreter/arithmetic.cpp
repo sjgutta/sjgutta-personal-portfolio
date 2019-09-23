@@ -156,5 +156,5 @@ EqualExpression::~EqualExpression() {
 }
 
 string EqualExpression::format() const {
-    return "[" + this->left->format() + " < " + this->right->format() + "]";
+    return "[" + this->left->format() + " = " + this->right->format() + "]";
 }
