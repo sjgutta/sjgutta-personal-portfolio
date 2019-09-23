@@ -27,17 +27,52 @@ void Interpreter::parse(std::istream& in) {
             Command* result = new PrintCommand(line_number, output);
             program.push_back(result);
         }else if(command == "LET"){
-
+            std::string name;
+            stream >> name;
+            NumericExpression* setValue = ParseNumeric(stream);
+            int value = setValue->getValue();
+            Variable* variable = new Variable(value, name);
+            Command* result = new LetCommand(line_number, setValue, variable);
+            program.push_back(result);
         }else if(command == "GOTO"){
-            
+            int destination;
+            stream >> destination;
+            Command* result = new GoToCommand(line_number, destination);
+            program.push_back(result);
         }else if(command == "IF"){
-            
+            //creating boolean expression properly
+            NumericExpression* left = ParseNumeric(stream);
+            char booleanoperator = 0;
+            stream >> booleanoperator;
+            NumericExpression* right = ParseNumeric(stream);
+            BooleanExpression* conditional = NULL;
+            if(booleanoperator == '='){
+                conditional = new EqualExpression(left, right);
+            }else if(booleanoperator == '>'){ //if operator is greater, flip arguments, make less expression
+                conditional = new LessExpression(right, left);
+            }else if(booleanoperator == '<'){
+                conditional = new LessExpression(left, right);
+            }
+            //now getting rid of THEN from line of command
+            std::string then;
+            stream >> then;
+            //now getting destination
+            int destination;
+            stream >> destination;
+            //now building final command object and adding to program vector
+            Command* result = new IfThenCommand(line_number, conditional, destination);
+            program.push_back(result);
         }else if(command == "GOSUB"){
-            
+            int destination;
+            stream >> destination;
+            Command* result = new GoSubCommand(line_number, destination);
+            program.push_back(result);
         }else if(command == "RETURN"){
-            
+            Command* result = new ReturnCommand(line_number);
+            program.push_back(result);
         }else if(command == "END"){
-            
+            Command* result = new EndCommand(line_number);
+            program.push_back(result);
         }
     }
 }
