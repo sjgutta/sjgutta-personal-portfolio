@@ -13,6 +13,7 @@ int NumericExpression::getValue() const{
     return value;
 }
 
+
 //addition expression functions defined
 AdditionExpression::AdditionExpression(NumericExpression* left, NumericExpression* right) : left(left), right(right) {
 
