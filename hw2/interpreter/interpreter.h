@@ -6,6 +6,8 @@
 #include "command.h"
 #include "arithmetic.h"
 
+//This is the class for parsing the code, storing it
+//also writes out the output using write function
 class Interpreter {
 public:
     Interpreter(std::istream& in);
@@ -17,6 +19,8 @@ public:
     NumericExpression* ParseVariableName(std::stringstream& stream);
 private:
     void parse(std::istream& in);
+    //this data member holds the lines of the program in a vector
+    //each line is made into a command object
     std::vector<Command*> program;
 };
 

@@ -2,16 +2,20 @@
 #include <string>
 #include <sstream>
 
+//this constructs the interpreter and immediately parses program
 Interpreter::Interpreter(std::istream& in) {
     this->parse(in);
 }
 
+//this destructor cleans up the commands which recursively delete
+//underlying objects
 Interpreter::~Interpreter() {
     for(int i=0; i<int(program.size());i++){
         delete program[i];
     }
 }
 
+//this is the function called to parse in stream
 void Interpreter::parse(std::istream& in) {
     std::string line;
     while (getline(in, line)) {
@@ -22,20 +26,24 @@ void Interpreter::parse(std::istream& in) {
         std::string command;
         stream >> command;
 
+        //constructing a print command with its output
         if(command == "PRINT"){
             NumericExpression* output = ParseNumeric(stream);
             Command* result = new PrintCommand(line_number, output);
             program.push_back(result);
+        //constructing a let command
         }else if(command == "LET"){
             NumericExpression* variable = ParseVariableName(stream);
             NumericExpression* setValue = ParseNumeric(stream);
             Command* result = new LetCommand(line_number, setValue, variable);
             program.push_back(result);
+        //constructing a goto command
         }else if(command == "GOTO"){
             int destination;
             stream >> destination;
             Command* result = new GoToCommand(line_number, destination);
             program.push_back(result);
+        //constructing an if command
         }else if(command == "IF"){
             //creating boolean expression properly
             NumericExpression* left = ParseNumeric(stream);
@@ -45,7 +53,8 @@ void Interpreter::parse(std::istream& in) {
             BooleanExpression* conditional = NULL;
             if(booleanoperator == '='){
                 conditional = new EqualExpression(left, right);
-            }else if(booleanoperator == '>'){ //if operator is greater, flip arguments, make less expression
+            }else if(booleanoperator == '>'){ 
+                //if operator is greater, flip arguments, make less expression
                 conditional = new LessExpression(right, left);
             }else if(booleanoperator == '<'){
                 conditional = new LessExpression(left, right);
@@ -59,14 +68,17 @@ void Interpreter::parse(std::istream& in) {
             //now building final command object and adding to program vector
             Command* result = new IfThenCommand(line_number, conditional, destination);
             program.push_back(result);
+        //building gosub command
         }else if(command == "GOSUB"){
             int destination;
             stream >> destination;
             Command* result = new GoSubCommand(line_number, destination);
             program.push_back(result);
+        //building return command
         }else if(command == "RETURN"){
             Command* result = new ReturnCommand(line_number);
             program.push_back(result);
+        //building end command
         }else if(command == "END"){
             Command* result = new EndCommand(line_number);
             program.push_back(result);
@@ -74,15 +86,21 @@ void Interpreter::parse(std::istream& in) {
     }
 }
 
+//function to parse a numeric expression
 NumericExpression* Interpreter::ParseNumeric(std::stringstream& stream){
     char first = 0;
+    //get rid of whitespace before starting to parse
     stream >> std::ws;
     first = stream.peek();
+    //if first char is a digit, parse a constant numeric
     if(first == '-' || isdigit(first)){
         int value;
         stream >> value;
+        //use helper function to parse constant
         NumericExpression* result = ParseConstant(stream, value);
         return result;
+    //if has parenthese, parse a binary expression
+    //uses parse numeric recursively as a helper function
     }else if(first == '('){
         stream >> first;
         NumericExpression* left = ParseNumeric(stream);
@@ -90,6 +108,7 @@ NumericExpression* Interpreter::ParseNumeric(std::stringstream& stream){
         stream >> binaryoperator;
         NumericExpression* right = ParseNumeric(stream);
         NumericExpression* result = NULL;
+        //check for binary operator to make proper object
         if(binaryoperator=='+'){
             result = new AdditionExpression(left, right);
         }else if(binaryoperator=='-'){
@@ -105,16 +124,19 @@ NumericExpression* Interpreter::ParseNumeric(std::stringstream& stream){
         //now return the resulting expression that was parsed
         return result;
     }else{
+        //otherwise parse a variable name using helper
         NumericExpression* result = ParseVariableName(stream);
         return result;
     }
 }
 
+//parses a constant numeric expression and returns object
 NumericExpression* Interpreter::ParseConstant(std::stringstream& stream, int value){
     NumericExpression* result = new Numeral(value);
     return result;
 }
 
+//function to parse a variable name and return object
 NumericExpression* Interpreter::ParseVariableName(std::stringstream& stream){
     char next;
     std::string name = "";
@@ -150,7 +172,8 @@ NumericExpression* Interpreter::ParseVariableName(std::stringstream& stream){
 }
 
 
-
+//this function prints all the output to terminal
+//loops through program vector and calls format for each command
 void Interpreter::write(std::ostream& out) {
     for(int i=0; i<int(program.size()); i++){
         std::string write_out = program[i]->format();
