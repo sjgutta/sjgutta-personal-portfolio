@@ -10,7 +10,7 @@ interpreter folder
 
 ## Running Code
 * Compiling the code creates an executable called parser
-* run the code with ./parser <filename>
+* run the code with ./basic_interpreter <filename>
 * The <filename> represents the name of the file being used as input. Make sure it is in
 this directory or if not, you specify the proper path
 * The output will be printed to the terminal when the code is run, assuming a valid BASIC input
