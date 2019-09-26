@@ -1,6 +1,6 @@
 all: basic_interpreter
 
-parser: main.cpp arithmetic.o command.o interpreter.o
+basic_interpreter: main.cpp arithmetic.o command.o interpreter.o
 	g++ -g -Wall -std=c++11 main.cpp arithmetic.o command.o interpreter.o -o basic_interpreter
 
 arithmetic.o: interpreter/arithmetic.h interpreter/arithmetic.cpp
