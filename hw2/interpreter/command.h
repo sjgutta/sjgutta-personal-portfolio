@@ -29,7 +29,8 @@ private:
 //class for Let command
 class LetCommand : public Command {
 public:
-    LetCommand(int line, NumericExpression* setValue, NumericExpression* variable);
+    LetCommand(int line, NumericExpression* setValue, 
+        NumericExpression* variable);
     ~LetCommand();
     virtual std::string format() const;
 private:
@@ -40,7 +41,8 @@ private:
 //class for Let array command
 class LetArrayCommand : public Command {
 public:
-    LetArrayCommand(int line, NumericExpression* setValue, ArrayVariable* variable);
+    LetArrayCommand(int line, NumericExpression* setValue, 
+        ArrayVariable* variable);
     ~LetArrayCommand();
     virtual std::string format() const;
 private:
