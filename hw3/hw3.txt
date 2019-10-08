@@ -1,0 +1,31 @@
+Sajan Gutta
+Answers for Homework 3 - CSCI 104
+
+Problem 1:
+1. This would be a list because lists have order. Each item would be a
+struct for a subject, with the history as a data member. The history was
+a string in our homework but could be a vector of integers for an easier
+data structure to work with.
+2. This would just be a set that has each student who earned an A.
+3. This would be a map. There would be an entry for each student.
+Each student name would be a key, where the value would be the actual
+object/struct or a pointer to it for the student and their data.
+4. This would be a map as well. It would use grades as keys and the values
+a set of students. Every student would fall into the value for one of the keys.
+
+Problem 2:
+The returned link list is 5-4-3-2-1 which is a reversed version of the input.
+First, funcA takes in the head node, 1 as an input. It loops and sets out to 5.
+Now, funcB is called on 1. Since 1 is not the list end, funcB is called inside
+the if(in->next != nullptr) loop and funcB(2) is called. This recursive call
+continues until funcB(5) at which point 5 is returned back to funcB(4). Then,
+the next pointer for 5 is set to 4 and 4 is returned to funcB(3). This continues
+up the recursive tree as 4 next is set to 3, 3 next is set to 2, 2 next is set to 1
+and 1 is returned back to the original funcA(1) call. Finally, the line with
+funcB(in)->next = NULL; that started the recursive calls sets 1 next to NULL,
+making 1 the back of the list. Finally, the original back which is 5, is returned
+in return out; and the execution of funcA(1) completes. This is how the call
+recurses down and back up, reversing the direction of the list on its way up by
+forming new links.
+
+Problem 3:
