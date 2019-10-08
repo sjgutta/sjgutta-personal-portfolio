@@ -13,8 +13,20 @@ int calculateDistance(ifstream& in){
     int result = 0;
     char move;
     while(in >> move){
-        char last_move = s.top();
-        if(move==last_move){
+        char last_move = '\0';
+        if(!s.empty()){
+            last_move = s.top();
+        }
+        if(move=='N' && last_move == 'S'){
+            s.pop();
+            result--;
+        }else if(move=='S' && last_move == 'N'){
+            s.pop();
+            result--;
+        }else if(move=='E' && last_move == 'W'){
+            s.pop();
+            result--;
+        }else if(move=='W' && last_move == 'E'){
             s.pop();
             result--;
         }else{
