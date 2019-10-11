@@ -47,3 +47,6 @@ bool CompanyTracker::inSameCompany (int i, int j)
   // your implementation goes here
 }
 
+Company* CompanyTracker::findLargestCompany(int i){
+  
+}
