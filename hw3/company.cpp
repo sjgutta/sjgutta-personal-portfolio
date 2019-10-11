@@ -15,6 +15,7 @@ CompanyTracker::~CompanyTracker ()
   // your implementation goes here
   for(int i=0; i<numCompanies; i++){
     while(findLargestCompany(i) != companies[i]){
+      //split slowly breaks down hierarchy, deletes parents
       split(i);
     }
     delete companies[i];
@@ -32,6 +33,7 @@ void CompanyTracker::merge (int i, int j)
      If either i or j are out of range, merge doesn't do anything. */
 {
   // your implementation goes here
+  //check for out of bounds or equal
   if(i<0||i>=numCompanies){
     return;
   }
@@ -41,12 +43,15 @@ void CompanyTracker::merge (int i, int j)
   if(i==j){
     return;
   }
+  //find companies to merge
   Company* company1 = findLargestCompany(i);
   Company* company2 = findLargestCompany(j);
   if(company1==company2){
     return;
   }
+  //create new company to be parent
   Company* new_parent = new Company(company1,company2);
+  //set merged companies to have this parent company
   company1->parent==new_parent;
   company2->parent==new_parent;
 }
@@ -63,12 +68,15 @@ void CompanyTracker::split (int i)
   if(i<0||i>=numCompanies){
     return;
   }
+  //find largest company to be split
   Company* largest = findLargestCompany(i);
   if(largest->merge1==nullptr){
     return;
   }
+  //setting merged companies to have no parent
   largest->merge1->parent=nullptr;
   largest->merge2->parent=nullptr;
+  //deleting the parent
   delete largest;
 }
 
@@ -84,6 +92,7 @@ bool CompanyTracker::inSameCompany (int i, int j)
   if(j<0||j>=numCompanies){
     return false;
   }
+  //checking cases to see if same company
   if(i==j){
     return true;
   }else if(companies[i]->parent==companies[j]->parent && companies[i]->parent){
@@ -94,6 +103,7 @@ bool CompanyTracker::inSameCompany (int i, int j)
 }
 
 Company* CompanyTracker::findLargestCompany(int i){
+  //finding top most parent for this company
   Company* result = companies[i];
   while(result->parent){
     result = result->parent;
