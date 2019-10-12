@@ -52,8 +52,8 @@ void CompanyTracker::merge (int i, int j)
   //create new company to be parent
   Company* new_parent = new Company(company1,company2);
   //set merged companies to have this parent company
-  company1->parent==new_parent;
-  company2->parent==new_parent;
+  company1->parent=new_parent;
+  company2->parent=new_parent;
 }
 
 void CompanyTracker::split (int i)
@@ -95,7 +95,7 @@ bool CompanyTracker::inSameCompany (int i, int j)
   //checking cases to see if same company
   if(i==j){
     return true;
-  }else if(companies[i]->parent==companies[j]->parent && companies[i]->parent){
+  }else if(findLargestCompany(i)==findLargestCompany(j) && companies[i]->parent){
     return true;
   }else{
     return false;
