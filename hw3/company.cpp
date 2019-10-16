@@ -1,4 +1,5 @@
 #include "company.hpp"
+#include <vector>
 
 CompanyTracker::CompanyTracker (int n)
   // initializes the tracker with n students and their 1-person companies
@@ -13,13 +14,18 @@ CompanyTracker::~CompanyTracker ()
   // deallocates all dynamically allocated memory
 {
   // your implementation goes here
-  for(int i=0; i<numCompanies; i++){
-    while(findLargestCompany(i) != companies[i]){
-      //split slowly breaks down hierarchy, deletes parents
-      split(i);
+  //delete all in parents vector
+  for(int i=0; i<int(parents.size()); i++){
+    if(parents[i]!=nullptr){
+      delete parents[i];
     }
+  }
+  //deleting child companies
+  for(int i=0; i<numCompanies; i++){
     delete companies[i];
   }
+  //deleting the companies array
+  delete [] companies;
 }
 
 void CompanyTracker::merge (int i, int j)
@@ -54,6 +60,7 @@ void CompanyTracker::merge (int i, int j)
   //set merged companies to have this parent company
   company1->parent=new_parent;
   company2->parent=new_parent;
+  parents.push_back(new_parent);
 }
 
 void CompanyTracker::split (int i)
@@ -76,8 +83,14 @@ void CompanyTracker::split (int i)
   //setting merged companies to have no parent
   largest->merge1->parent=nullptr;
   largest->merge2->parent=nullptr;
-  //deleting the parent
-  delete largest;
+  //deleting the parent company from the vector of parents
+  for(int i=0; i<int(parents.size()); i++){
+    if(parents[i]==largest){
+      delete parents[i];
+      parents.erase(parents.begin()+i);
+      return;
+    }
+  }
 }
 
 bool CompanyTracker::inSameCompany (int i, int j)

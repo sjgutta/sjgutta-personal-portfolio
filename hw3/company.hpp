@@ -1,3 +1,5 @@
+#include <vector>
+
 struct Company {
   Company *parent;   // the parent company, or nullptr if it has no parent
   Company *merge1, *merge2;
@@ -52,4 +54,7 @@ class CompanyTracker {
      In particular, you may want a function to find the largest company
      that a student i is part of. */
   Company* findLargestCompany(int i);
+
+  //parent companies vector to use in destructor
+  std::vector<Company*> parents;
 };
