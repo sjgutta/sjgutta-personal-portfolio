@@ -29,3 +29,23 @@ recurses down and back up, reversing the direction of the list on its way up by
 forming new links.
 
 Problem 3:
+1. The very inner k loop runs once on its first execution, setting A[i] = 1.
+This is because it only runs when j=0 and then never runs again because the 
+A[i]==0 condition is never met again. This means that j loop runs i times, and has
+a constant amount of work within it. Thus, since i is dependent on n, the work for the
+j loop becomes n when summed. Thus, we are running the outer i loop n times, and doing n
+work within it. Thus, worst case, the code runs in Big-theta(n^2) time.
+
+2. The for loop runs logn times because i is multplied by 2 for each iteration.
+Then, func is called on i. Func has a runtime of n because whatever number is passed in will
+be slowly decremented for ensuing recursive calls until it reaches 1. The function has a 
+constant amount of work but due to its recursive calls, will be called n times and thus,
+func has a runtime of n. Since the outer for loop will run logn times, the ultimate
+runtime for this code is Big-theta(nlogn).
+
+3. The first 11 lines run in c1+n time. Then we get to a for loop that runs n times.
+Going to the inner-most loop which is where j=0; j<n, we find that that loop runs
+n times, doing constant work, so it has a runtime of n. This is nested within a while loop
+which based on the nature of linked lists, would normally do its work n times. However, the if
+statement inside it impacts its number of executions. The statement checks if the current item in
+the linked list is divisible by the number i specificed by the outer loop.
