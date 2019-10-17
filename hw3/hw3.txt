@@ -48,4 +48,17 @@ Going to the inner-most loop which is where j=0; j<n, we find that that loop run
 n times, doing constant work, so it has a runtime of n. This is nested within a while loop
 which based on the nature of linked lists, would normally do its work n times. However, the if
 statement inside it impacts its number of executions. The statement checks if the current item in
-the linked list is divisible by the number i specificed by the outer loop.
+the linked list is divisible by the number i specificed by the outer loop. Since the number 
+i is increasing each loop, this will run n times, then n/2 times, then n/3 times, etc. 
+This is the harmonic series and works out to a run-time of logn. Thus, the inner loops 
+will do logn*n*c work, having a runtime of nlogn. The outer loop runs n times. Thus, the 
+runtime will be Big-theta(n^2*(logn)).
+
+4. The first 2 lines of this run in constant time. Next, we have the loop that runs n times. 
+Inside it, the if condition that i==size will only run when at an iteration equal to i. 
+Inside this condition however, is a loop who's number of loops depends on size, which equals i 
+when the loop is run. Thus, this depends on n and runs n times. However, the if condition also 
+multiplies size by 3 each time. Thus, 3 will also run on the 9th iteration, 27th and so on. 
+Thus, we run constant work n times inside the outer loop, but in addition there is n+c work 
+being done logn times because of the if condition. 
+Thus, the runtime is equal to n*c + logn*(n+c) + c. This ultimately has Big-Theta(n*logn).
