@@ -38,10 +38,11 @@ work within it. Thus, worst case, the code runs in Big-theta(n^2) time.
 
 2. The for loop runs logn times because i is multplied by 2 for each iteration.
 Then, func is called on i. Func has a runtime of n because whatever number is passed in will
-be slowly decremented for ensuing recursive calls until it reaches 1. The function has a 
-constant amount of work but due to its recursive calls, will be called n times and thus,
-func has a runtime of n. Since the outer for loop will run logn times, the ultimate
-runtime for this code is Big-theta(nlogn).
+be slowly decremented for ensuing recursive calls until it reaches 1. This would indicate 
+nlogn usually but not in this case. The inner loop has theta of i but since we only run it
+over powers of 2, the total work is 1+2+4...+2^n. This becomes the some of 2^k where k goes
+from 0 to logn in this case. This sums to 2^logn which is just n. Thus, deceivingly, this
+code has Big-theta(n) despite having two nested loops.
 
 3. The first 11 lines run in c1+n time. Then we get to a for loop that runs n times.
 Going to the inner-most loop which is where j=0; j<n, we find that that loop runs
