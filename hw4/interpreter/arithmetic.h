@@ -12,7 +12,8 @@ public:
     NumericExpression(int value);
     virtual ~NumericExpression() {}
     virtual std::string format() const = 0;
-    int getValue() const;
+    virtual int getValue() const;
+    virtual std::string getName() const = 0;
 protected:
     int value;
 };
@@ -32,6 +33,7 @@ public:
     Variable(int value, std::string name);
     ~Variable();
     virtual std::string format() const;
+    virtual std::string getName();
 private:
     std::string name;
 };
@@ -43,6 +45,7 @@ public:
     ArrayVariable(int value, NumericExpression* index, std::string name);
     ~ArrayVariable();
     virtual std::string format() const;
+    virtual std::string getName();
 private:
     NumericExpression* index;
     std::string name;
@@ -54,7 +57,7 @@ class AdditionExpression : public NumericExpression {
 public:
     AdditionExpression(NumericExpression* left, NumericExpression* right);
     ~AdditionExpression();
-
+    virtual int getValue() const;
     virtual std::string format() const;
 
 private:
@@ -67,7 +70,7 @@ class SubtractionExpression : public NumericExpression {
 public:
     SubtractionExpression(NumericExpression* left, NumericExpression* right);
     ~SubtractionExpression();
-
+    virtual int getValue() const;
     virtual std::string format() const;
 
 private:
@@ -81,7 +84,7 @@ class DivisionExpression : public NumericExpression {
 public:
     DivisionExpression(NumericExpression* left, NumericExpression* right);
     ~DivisionExpression();
-
+    virtual int getValue() const;
     virtual std::string format() const;
 
 private:
@@ -95,7 +98,7 @@ class MultiplicationExpression : public NumericExpression {
 public:
     MultiplicationExpression(NumericExpression* left, NumericExpression* right);
     ~MultiplicationExpression();
-
+    virtual int getValue() const;
     virtual std::string format() const;
 
 private:

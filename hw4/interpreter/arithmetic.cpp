@@ -29,6 +29,10 @@ string AdditionExpression::format() const {
     return "(" + this->left->format() + " + " + this->right->format() + ")";
 }
 
+int AdditionExpression::getValue() const{
+    return this->left->getValue() + this->right->getValue();
+}
+
 //subtraction expression functions defined
 SubtractionExpression::SubtractionExpression(NumericExpression* left, 
     NumericExpression* right) : left(left), right(right) {
@@ -44,6 +48,9 @@ string SubtractionExpression::format() const {
     return "(" + this->left->format() + " - " + this->right->format() + ")";
 }
 
+int SubtractionExpression::getValue() const{
+    return this->left->getValue() - this->right->getValue();
+}
 
 //division expression functions defined
 DivisionExpression::DivisionExpression(NumericExpression* left, 
@@ -60,6 +67,9 @@ string DivisionExpression::format() const {
     return "(" + this->left->format() + " / " + this->right->format() + ")";
 }
 
+int DivisionExpression::getValue() const{
+    return this->left->getValue()/this->right->getValue();
+}
 
 //multiplication expression functions defined
 MultiplicationExpression::MultiplicationExpression(NumericExpression* left, 
@@ -76,6 +86,9 @@ string MultiplicationExpression::format() const {
     return "(" + this->left->format() + " * " + this->right->format() + ")";
 }
 
+int MultiplicationExpression::getValue() const{
+    return this->left->getValue()*this->right->getValue();
+}
 
 //constructor functions for numeral, variable, and array variables
 Numeral::Numeral(int value): NumericExpression(value){
@@ -91,6 +104,11 @@ Variable::Variable(string name): name(name){
     
 }
 
+//getname function for regular variable
+string Variable::getName() const{
+    return to_string(this->name);
+}
+
 ArrayVariable::ArrayVariable(NumericExpression* index, string name): index(index), name(name){
     
 }
@@ -99,6 +117,12 @@ ArrayVariable::ArrayVariable(int value, NumericExpression* index, string name):
     NumericExpression(value), index(index){
     this->value = value;
     this->name = name;
+}
+
+//getname function for array variable
+//helps track existing variables during execution
+string ArrayVariable::getName() const{
+    return to_string(this->name + "[" + this->index + "]");
 }
 
 //string format functions for numeral, variable, and array variables
