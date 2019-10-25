@@ -2,6 +2,7 @@
 #define COMMAND_HPP
 
 #include "arithmetic.h"
+#include "interpreter.h"
 
 #include <string>
 
@@ -12,6 +13,7 @@ public:
     virtual ~Command(){}
     virtual std::string format() const = 0;
     int getLine() const;
+    virtual void execute(Interpreter* interpreter) const = 0;
 private:
     int line_number;
 };
@@ -22,6 +24,7 @@ public:
     PrintCommand(int line, NumericExpression* output);
     ~PrintCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 private:
     NumericExpression* output;
 };
@@ -33,21 +36,10 @@ public:
         NumericExpression* variable);
     ~LetCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 private:
     NumericExpression* setValue;
     NumericExpression* variable;
-};
-
-//class for Let array command
-class LetArrayCommand : public Command {
-public:
-    LetArrayCommand(int line, NumericExpression* setValue, 
-        ArrayVariable* variable);
-    ~LetArrayCommand();
-    virtual std::string format() const;
-private:
-    NumericExpression* setValue;
-    ArrayVariable* variable;
 };
 
 //class for goto command
@@ -56,6 +48,7 @@ public:
     GoToCommand(int line, int destination);
     ~GoToCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 private:
     int destination;
 };
@@ -66,6 +59,7 @@ public:
     IfThenCommand(int line, BooleanExpression* conditional, int destination);
     ~IfThenCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 private:
     BooleanExpression* conditional;
     int destination;
@@ -81,6 +75,7 @@ public:
     GoSubCommand(int line, int destination);
     ~GoSubCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 private:
     int destination;
 };
@@ -91,6 +86,7 @@ public:
     ReturnCommand(int line);
     ~ReturnCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 };
 
 
@@ -100,6 +96,7 @@ public:
     EndCommand(int line);
     ~EndCommand();
     virtual std::string format() const;
+    virtual void execute(Interpreter* interpreter) const;
 };
 
 #endif

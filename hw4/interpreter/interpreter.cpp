@@ -5,6 +5,8 @@
 //this constructs the interpreter and immediately parses program
 Interpreter::Interpreter(std::istream& in) {
     this->parse(in);
+    this->current_line = 0;
+    this->is_over = false;
 }
 
 //this destructor cleans up the commands which recursively delete
@@ -180,3 +182,4 @@ void Interpreter::write(std::ostream& out) {
         std::cout << write_out << std::endl;
     }
 }
+

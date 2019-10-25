@@ -27,6 +27,10 @@ string PrintCommand::format() const {
     return to_string(this->getLine()) + " " + "PRINT" + " " + this->output->format();
 }
 
+void PrintCommand::execute(Interpreter* interpreter) const{
+    cout << this->output->getValue() << endl;
+}
+
 //let command functions defined
 LetCommand::LetCommand(int line, NumericExpression* setValue, 
     NumericExpression* variable) : Command(line), setValue(setValue), 
@@ -44,20 +48,8 @@ string LetCommand::format() const {
         " " + this->setValue->format();
 }
 
-//let array variable command functions defined
-LetArrayCommand::LetArrayCommand(int line, NumericExpression* setValue, 
-    ArrayVariable* variable) : Command(line), setValue(setValue), variable(variable) {
-
-}
-
-LetArrayCommand::~LetArrayCommand() {
-    delete this->setValue;
-    delete this->variable;
-}
-
-string LetArrayCommand::format() const {
-    return to_string(this->getLine()) + " " + "LET" + " " + this->variable->format() 
-    + " " + this->setValue->format();
+void LetCommand::execute(Interpreter* interpreter) const{
+    
 }
 
 //goto command functions defined
@@ -75,6 +67,9 @@ string GoToCommand::format() const {
         " <" + to_string(this->destination) + ">";
 }
 
+void GoToCommand::execute(Interpreter* interpreter) const{
+    interpreter->goto_command(this->destination);
+}
 
 //If Then command functions defined
 IfThenCommand::IfThenCommand(int line, BooleanExpression* conditional, int destination)
@@ -91,6 +86,13 @@ string IfThenCommand::format() const {
         " THEN <" + to_string(this->destination) + ">";
 }
 
+void IfThenCommand::execute(Interpreter* interpreter) const{
+    if(conditional->getValue()){
+        interpreter->goto_command(this->destination);
+    }else{
+        interpreter->if_then_command();
+    }
+}
 
 //GoSub command functions defined
 GoSubCommand::GoSubCommand(int line, int destination) : Command(line), 
@@ -107,6 +109,10 @@ string GoSubCommand::format() const {
         to_string(this->destination) + ">";
 }
 
+void GoSubCommand::execute(Interpreter* interpreter) const{
+    interpreter->gosub_command(this->destination);
+}
+
 //return command functions defined
 ReturnCommand::ReturnCommand(int line) : Command(line){
 
@@ -120,6 +126,10 @@ string ReturnCommand::format() const {
     return to_string(this->getLine()) + " RETURN";
 }
 
+void ReturnCommand::execute(Interpreter* interpreter) const{
+    interpreter->return_command();
+}
+
 //End command functions defined
 EndCommand::EndCommand(int line) : Command(line){
 
@@ -131,4 +141,8 @@ EndCommand::~EndCommand() {
 
 string EndCommand::format() const {
     return to_string(this->getLine()) + " END";
+}
+
+void EndCommand::execute(Interpreter* interpreter) const{
+    interpreter->end_command();
 }
