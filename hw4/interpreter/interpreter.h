@@ -10,6 +10,9 @@
 
 //helping bypass circular dependencies
 class Command;
+class NumericExpression;
+
+#include "arithmetic.h"
 
 //This is the class for parsing the code, storing it
 //also writes out the output using write function

@@ -9,7 +9,7 @@ NumericExpression::NumericExpression(int value){
 }
 
 //used to get the private value within subclasses
-int NumericExpression::getValue() const{
+int NumericExpression::getValue(Interpreter* interpreter) const{
     return value;
 }
 
@@ -32,8 +32,8 @@ string AdditionExpression::format() const {
     return "(" + this->left->format() + " + " + this->right->format() + ")";
 }
 
-int AdditionExpression::getValue() const{
-    return this->left->getValue() + this->right->getValue();
+int AdditionExpression::getValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter) + this->right->getValue(interpreter);
 }
 
 //subtraction expression functions defined
@@ -51,8 +51,8 @@ string SubtractionExpression::format() const {
     return "(" + this->left->format() + " - " + this->right->format() + ")";
 }
 
-int SubtractionExpression::getValue() const{
-    return this->left->getValue() - this->right->getValue();
+int SubtractionExpression::getValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter) - this->right->getValue(interpreter);
 }
 
 //division expression functions defined
@@ -70,8 +70,8 @@ string DivisionExpression::format() const {
     return "(" + this->left->format() + " / " + this->right->format() + ")";
 }
 
-int DivisionExpression::getValue() const{
-    return this->left->getValue()/this->right->getValue();
+int DivisionExpression::getValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter)/this->right->getValue(interpreter);
 }
 
 //multiplication expression functions defined
@@ -89,8 +89,8 @@ string MultiplicationExpression::format() const {
     return "(" + this->left->format() + " * " + this->right->format() + ")";
 }
 
-int MultiplicationExpression::getValue() const{
-    return this->left->getValue()*this->right->getValue();
+int MultiplicationExpression::getValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter)*this->right->getValue(interpreter);
 }
 
 //constructor functions for numeral, variable, and array variables
@@ -107,8 +107,12 @@ Variable::Variable(string name): name(name){
     
 }
 
+int Variable::getValue(Interpreter* interpreter) const{
+    return interpreter->current_variable_value(this->getName(interpreter));
+}
+
 //getname function for regular variable
-string Variable::getName() const{
+string Variable::getName(Interpreter*) const{
     return this->name;
 }
 
@@ -124,8 +128,12 @@ ArrayVariable::ArrayVariable(int value, NumericExpression* index, string name):
 
 //getname function for array variable
 //helps track existing variables during execution
-string ArrayVariable::getName() const{
-    return this->name + "[" + to_string(this->index->getValue()) + "]";
+string ArrayVariable::getName(Interpreter* interpreter) const{
+    return this->name + "[" + to_string(this->index->getValue(interpreter)) + "]";
+}
+
+int ArrayVariable::getValue(Interpreter* interpreter) const{
+    return interpreter->current_variable_value(this->getName(interpreter));
 }
 
 //string format functions for numeral, variable, and array variables
@@ -159,23 +167,23 @@ BooleanExpression::BooleanExpression(){
     
 }
 
-string LessExpression::getLeftName() const{
-    string name = this->left->getName();
+string LessExpression::getLeftName(Interpreter* interpreter) const{
+    string name = this->left->getName(interpreter);
     return name;
 }
 
-string LessExpression::getRightName() const{
-    string name = this->right->getName();
+string LessExpression::getRightName(Interpreter* interpreter) const{
+    string name = this->right->getName(interpreter);
     return name;
 }
 
-string EqualExpression::getLeftName() const{
-    string name = this->left->getName();
+string EqualExpression::getLeftName(Interpreter* interpreter) const{
+    string name = this->left->getName(interpreter);
     return name;
 }
 
-string EqualExpression::getRightName() const{
-    string name = this->right->getName();
+string EqualExpression::getRightName(Interpreter* interpreter) const{
+    string name = this->right->getName(interpreter);
     return name;
 }
 
@@ -195,8 +203,8 @@ string LessExpression::format() const {
     return "[" + this->left->format() + " < " + this->right->format() + "]";
 }
 
-bool LessExpression::getValue() const{
-    return this->left->getValue() < this->right->getValue();
+bool LessExpression::getValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter) < this->right->getValue(interpreter);
 }
 
 bool LessExpression::getValue(int first, int second) const{
@@ -218,8 +226,8 @@ string EqualExpression::format() const {
     return "[" + this->left->format() + " = " + this->right->format() + "]";
 }
 
-bool EqualExpression::getValue() const{
-    return this->left->getValue() == this->right->getValue();
+bool EqualExpression::getValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter) == this->right->getValue(interpreter);
 }
 
 bool EqualExpression::getValue(int first, int second) const{
@@ -227,18 +235,18 @@ bool EqualExpression::getValue(int first, int second) const{
 }
 
 //helper functions to get left and right values for if-then commands
-int LessExpression::getLeftValue() const{
-    return this->left->getValue();
+int LessExpression::getLeftValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter);
 }
 
-int LessExpression::getRightValue() const{
-    return this->right->getValue();
+int LessExpression::getRightValue(Interpreter* interpreter) const{
+    return this->right->getValue(interpreter);
 }
 
-int EqualExpression::getLeftValue() const{
-    return this->left->getValue();
+int EqualExpression::getLeftValue(Interpreter* interpreter) const{
+    return this->left->getValue(interpreter);
 }
 
-int EqualExpression::getRightValue() const{
-    return this->right->getValue();
+int EqualExpression::getRightValue(Interpreter* interpreter) const{
+    return this->right->getValue(interpreter);
 }

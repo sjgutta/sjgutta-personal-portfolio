@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 
+class NumericExpression;
+class BooleanExpression;
+class Interpreter;
+#include "interpreter.h"
 
 //base class
 class NumericExpression {
@@ -12,9 +16,10 @@ public:
     NumericExpression(int value);
     virtual ~NumericExpression() {}
     virtual std::string format() const = 0;
-    virtual int getValue() const;
     void setValue(int new_value);
-    virtual std::string getName() const{return "";}
+    virtual std::string getName(Interpreter*) const{return "";}
+    virtual int getValue() const{return value;}
+    virtual int getValue(Interpreter*) const;
 protected:
     int value;
 };
@@ -34,7 +39,8 @@ public:
     Variable(int value, std::string name);
     ~Variable();
     virtual std::string format() const;
-    virtual std::string getName() const;
+    virtual std::string getName(Interpreter*) const;
+    virtual int getValue(Interpreter*) const;
 private:
     std::string name;
 };
@@ -46,7 +52,8 @@ public:
     ArrayVariable(int value, NumericExpression* index, std::string name);
     ~ArrayVariable();
     virtual std::string format() const;
-    virtual std::string getName() const;
+    virtual std::string getName(Interpreter*) const;
+    virtual int getValue(Interpreter*) const;
 private:
     NumericExpression* index;
     std::string name;
@@ -58,7 +65,7 @@ class AdditionExpression : public NumericExpression {
 public:
     AdditionExpression(NumericExpression* left, NumericExpression* right);
     ~AdditionExpression();
-    virtual int getValue() const;
+    virtual int getValue(Interpreter*) const;
     virtual std::string format() const;
 
 private:
@@ -71,7 +78,7 @@ class SubtractionExpression : public NumericExpression {
 public:
     SubtractionExpression(NumericExpression* left, NumericExpression* right);
     ~SubtractionExpression();
-    virtual int getValue() const;
+    virtual int getValue(Interpreter*) const;
     virtual std::string format() const;
 
 private:
@@ -85,7 +92,7 @@ class DivisionExpression : public NumericExpression {
 public:
     DivisionExpression(NumericExpression* left, NumericExpression* right);
     ~DivisionExpression();
-    virtual int getValue() const;
+    virtual int getValue(Interpreter*) const;
     virtual std::string format() const;
 
 private:
@@ -99,7 +106,7 @@ class MultiplicationExpression : public NumericExpression {
 public:
     MultiplicationExpression(NumericExpression* left, NumericExpression* right);
     ~MultiplicationExpression();
-    virtual int getValue() const;
+    virtual int getValue(Interpreter*) const;
     virtual std::string format() const;
 
 private:
@@ -114,14 +121,14 @@ public:
     BooleanExpression();
     virtual ~BooleanExpression() {}
     virtual std::string format() const = 0;
-    virtual bool getValue() const = 0;
+    virtual bool getValue(Interpreter*) const = 0;
     virtual bool getValue(int,int) const = 0;
     //functions for handling variables as arguments in a boolean expression
-    virtual std::string getLeftName() const = 0;
-    virtual std::string getRightName() const = 0;
+    virtual std::string getLeftName(Interpreter*) const = 0;
+    virtual std::string getRightName(Interpreter*) const = 0;
     //getting left and right values
-    virtual int getLeftValue() const = 0;
-    virtual int getRightValue() const = 0;
+    virtual int getLeftValue(Interpreter*) const = 0;
+    virtual int getRightValue(Interpreter*) const = 0;
 };
 
 //less than boolean expression
@@ -129,14 +136,14 @@ class LessExpression : public BooleanExpression {
 public:
     LessExpression(NumericExpression* left, NumericExpression* right);
     ~LessExpression();
-    virtual bool getValue() const;
+    virtual bool getValue(Interpreter*) const;
     virtual bool getValue(int,int) const;
     virtual std::string format() const;
-    virtual std::string getLeftName() const;
-    virtual std::string getRightName() const;
+    virtual std::string getLeftName(Interpreter*) const;
+    virtual std::string getRightName(Interpreter*) const;
     //getting left and right values
-    virtual int getLeftValue() const;
-    virtual int getRightValue() const;
+    virtual int getLeftValue(Interpreter*) const;
+    virtual int getRightValue(Interpreter*) const;
 private:
     NumericExpression* left;
     NumericExpression* right;
@@ -147,14 +154,14 @@ class EqualExpression : public BooleanExpression {
 public:
     EqualExpression(NumericExpression* left, NumericExpression* right);
     ~EqualExpression();
-    virtual bool getValue() const;
+    virtual bool getValue(Interpreter*) const;
     virtual bool getValue(int,int) const;
     virtual std::string format() const;
-    virtual std::string getLeftName() const;
-    virtual std::string getRightName() const;
+    virtual std::string getLeftName(Interpreter*) const;
+    virtual std::string getRightName(Interpreter*) const;
     //getting left and right values
-    virtual int getLeftValue() const;
-    virtual int getRightValue() const;
+    virtual int getLeftValue(Interpreter*) const;
+    virtual int getRightValue(Interpreter*) const;
 private:
     NumericExpression* left;
     NumericExpression* right;

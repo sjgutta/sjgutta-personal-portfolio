@@ -31,7 +31,7 @@ void PrintCommand::execute(Interpreter* interpreter) const{
     if(this->output->getName()!=""){
         interpreter->print_command(this->output->getName());
     }else{
-        cout << this->output->getValue() << endl;
+        cout << this->output->getValue(interpreter) << endl;
         interpreter->increment_line();
     }
 }
@@ -54,7 +54,7 @@ string LetCommand::format() const {
 }
 
 void LetCommand::execute(Interpreter* interpreter) const{
-    this->variable->setValue(this->setValue->getValue());
+    this->variable->setValue(this->setValue->getValue(interpreter));
     interpreter->let_command(this->variable);
 }
 
@@ -99,12 +99,12 @@ void IfThenCommand::execute(Interpreter* interpreter) const{
     if(left_name!=""){
         left_value = interpreter->current_variable_value(left_name);
     }else{
-        left_value = this->conditional->getLeftValue();
+        left_value = this->conditional->getLeftValue(interpreter);
     }
     if(right_name!=""){
         right_value = interpreter->current_variable_value(right_name);
     }else{
-        right_value = this->conditional->getRightValue();
+        right_value = this->conditional->getRightValue(interpreter);
     }
     if(conditional->getValue(left_value, right_value)){
         interpreter->goto_command(this->destination);

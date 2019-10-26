@@ -228,7 +228,7 @@ void Interpreter::print_command(std::string name){
 }
 
 void Interpreter::let_command(NumericExpression* variable){
-    std::string name = variable->getName();
+    std::string name = variable->getName(this);
     std::map<std::string,NumericExpression*>::iterator it;
     if(this->variable_exists(name)){
         it = this->variables_list.find(name);
@@ -253,6 +253,7 @@ void Interpreter::return_command(){
         gosubs_list.pop();
     }else{
         //an error will be printed or thrown here
+        throw std::logic_error("No matching gosub call");
     }
 }
 
