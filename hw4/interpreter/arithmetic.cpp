@@ -13,6 +13,9 @@ int NumericExpression::getValue() const{
     return value;
 }
 
+void NumericExpression::setValue(int new_value){
+    this->value = value;
+}
 
 //addition expression functions defined
 AdditionExpression::AdditionExpression(NumericExpression* left, 
@@ -106,7 +109,7 @@ Variable::Variable(string name): name(name){
 
 //getname function for regular variable
 string Variable::getName() const{
-    return to_string(this->name);
+    return this->name;
 }
 
 ArrayVariable::ArrayVariable(NumericExpression* index, string name): index(index), name(name){
@@ -122,7 +125,7 @@ ArrayVariable::ArrayVariable(int value, NumericExpression* index, string name):
 //getname function for array variable
 //helps track existing variables during execution
 string ArrayVariable::getName() const{
-    return to_string(this->name + "[" + this->index + "]");
+    return this->name + "[" + to_string(this->index->getValue()) + "]";
 }
 
 //string format functions for numeral, variable, and array variables
@@ -152,18 +155,15 @@ ArrayVariable::~ArrayVariable() {
 }
 
 //defining boolean base class
-BooleanExpression::BooleanExpression(bool value){
-    this->value = value;
+BooleanExpression::BooleanExpression(){
+    
 }
 
-bool BooleanExpression::getValue() const{
-    return value;
-}
 
 //less than boolean subclass functions
-LessExpression::LessExpression(NumericExpression* left, NumericExpression* right)
-     : BooleanExpression(left->getValue() < right->getValue()), left(left), right(right){
-
+LessExpression::LessExpression(NumericExpression* left, NumericExpression* right){
+    this->left = left;
+    this->right = right;
 }
 
 LessExpression::~LessExpression() {
@@ -175,10 +175,14 @@ string LessExpression::format() const {
     return "[" + this->left->format() + " < " + this->right->format() + "]";
 }
 
-//equal expression subclass functions
-EqualExpression::EqualExpression(NumericExpression* left, NumericExpression* right)
- : BooleanExpression(left->getValue() == right->getValue()), left(left), right(right){
+bool LessExpression::getValue() const{
+    return this->left->getValue() < this->right->getValue();
+}
 
+//equal expression subclass functions
+EqualExpression::EqualExpression(NumericExpression* left, NumericExpression* right){
+    this->left = left;
+    this->right = right;
 }
 
 EqualExpression::~EqualExpression() {
@@ -188,4 +192,8 @@ EqualExpression::~EqualExpression() {
 
 string EqualExpression::format() const {
     return "[" + this->left->format() + " = " + this->right->format() + "]";
+}
+
+bool EqualExpression::getValue() const{
+    return this->left->getValue() == this->right->getValue();
 }

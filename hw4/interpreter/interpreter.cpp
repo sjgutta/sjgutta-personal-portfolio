@@ -183,3 +183,29 @@ void Interpreter::write(std::ostream& out) {
     }
 }
 
+
+//implementing command executions functions
+
+void Interpreter::print_command(){
+
+}
+
+void Interpreter::let_command(NumericExpression* variable){
+    
+}
+
+void Interpreter::goto_command(int destination){
+    
+}
+
+void Interpreter::if_then_command(){
+    
+}
+
+void Interpreter::return_command(){
+    
+}
+
+void Interpreter::gosub_command(int destination){
+    
+}

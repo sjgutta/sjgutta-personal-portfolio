@@ -5,8 +5,12 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <stack>
 #include "command.h"
 #include "arithmetic.h"
+
+//helping bypass circular dependencies
+class Command;
 
 //This is the class for parsing the code, storing it
 //also writes out the output using write function
@@ -20,7 +24,7 @@ public:
     NumericExpression* ParseConstant(std::stringstream& stream, int value);
     NumericExpression* ParseVariableName(std::stringstream& stream);
     void print_command();
-    void let_command();
+    void let_command(NumericExpression* variable);
     void goto_command(int destination);
     void if_then_command();
     void gosub_command(int destination);

@@ -49,7 +49,8 @@ string LetCommand::format() const {
 }
 
 void LetCommand::execute(Interpreter* interpreter) const{
-    
+    this->variable->setValue(this->setValue->getValue());
+    interpreter->let_command(this->variable);
 }
 
 //goto command functions defined

@@ -13,7 +13,8 @@ public:
     virtual ~NumericExpression() {}
     virtual std::string format() const = 0;
     virtual int getValue() const;
-    virtual std::string getName() const = 0;
+    void setValue(int new_value);
+    virtual std::string getName() const{return "Not a variable";}
 protected:
     int value;
 };
@@ -33,7 +34,7 @@ public:
     Variable(int value, std::string name);
     ~Variable();
     virtual std::string format() const;
-    virtual std::string getName();
+    virtual std::string getName() const;
 private:
     std::string name;
 };
@@ -45,7 +46,7 @@ public:
     ArrayVariable(int value, NumericExpression* index, std::string name);
     ~ArrayVariable();
     virtual std::string format() const;
-    virtual std::string getName();
+    virtual std::string getName() const;
 private:
     NumericExpression* index;
     std::string name;
@@ -110,12 +111,10 @@ private:
 //Now working on making boolean expressions work
 class BooleanExpression {
 public:
-    BooleanExpression(bool value);
+    BooleanExpression();
     virtual ~BooleanExpression() {}
     virtual std::string format() const = 0;
-    bool getValue() const;
-protected:
-    bool value;
+    virtual bool getValue() const = 0;
 };
 
 //less than boolean expression
@@ -123,9 +122,8 @@ class LessExpression : public BooleanExpression {
 public:
     LessExpression(NumericExpression* left, NumericExpression* right);
     ~LessExpression();
-
+    virtual bool getValue() const;
     virtual std::string format() const;
-
 private:
     NumericExpression* left;
     NumericExpression* right;
@@ -136,9 +134,8 @@ class EqualExpression : public BooleanExpression {
 public:
     EqualExpression(NumericExpression* left, NumericExpression* right);
     ~EqualExpression();
-
+    virtual bool getValue() const;
     virtual std::string format() const;
-
 private:
     NumericExpression* left;
     NumericExpression* right;

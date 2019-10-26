@@ -6,6 +6,8 @@
 
 #include <string>
 
+class Interpreter;
+
 //base class for all commands to derive from
 class Command {
 public:
