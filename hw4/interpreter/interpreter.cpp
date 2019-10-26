@@ -1,6 +1,7 @@
 #include "interpreter.h"
 #include <string>
 #include <sstream>
+#include <exception>
 
 //this constructs the interpreter and immediately parses program
 Interpreter::Interpreter(std::istream& in) {
@@ -187,11 +188,12 @@ void Interpreter::write(std::ostream& out) {
 void Interpreter::main_execute(){
     this->populate_index_map();
     while(!this->over_condition()){
-        try:
+        try{
             this->program[current_line]->execute(this);
-        catch(Exception& e):
+        }catch(std::exception& e){
             std::cout << e.what() << std::endl;
-            return;
+            this->is_over = true;
+        }
     }
 }
 
@@ -219,6 +221,7 @@ void Interpreter::print_command(std::string name){
             std::cout << std::to_string(variables_list.find(name)->second->getValue()) << std::endl;
         }else{
             //an error will be printed here
+            throw std::logic_error("An error occurred");
         }
     }
     this->current_line += 1;
@@ -250,7 +253,6 @@ void Interpreter::return_command(){
         gosubs_list.pop();
     }else{
         //an error will be printed or thrown here
-        throw("An error occurred");
     }
 }
 
@@ -291,4 +293,23 @@ bool Interpreter::over_condition(){
 //helper function to increment current line
 void Interpreter::increment_line(){
     this->current_line += 1;
+}
+
+//helper function for boolean expressions to get a variable's value
+int Interpreter::current_variable_value(std::string name){
+    int length = name.length();
+    if(name[length-1]==']'){
+        if(variables_list.find(name)!=variables_list.end()){
+            return variables_list.find(name)->second->getValue();
+        }else{
+            return 0;
+        }
+    }else{
+        if(variables_list.find(name)!=variables_list.end()){
+            return variables_list.find(name)->second->getValue();
+        }else{
+            //an error will be printed here
+            return 0;
+        }
+    }
 }

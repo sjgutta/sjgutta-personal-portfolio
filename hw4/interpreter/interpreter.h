@@ -7,7 +7,6 @@
 #include <string>
 #include <stack>
 #include "command.h"
-#include "arithmetic.h"
 
 //helping bypass circular dependencies
 class Command;
@@ -32,6 +31,7 @@ public:
     void end_command(){this->is_over = true;}
 
     //some helper functions for this class
+    int current_variable_value(std::string name);
     void populate_index_map();
     void increment_line();
     bool over_condition();

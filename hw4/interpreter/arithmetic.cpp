@@ -159,6 +159,26 @@ BooleanExpression::BooleanExpression(){
     
 }
 
+string LessExpression::getLeftName() const{
+    string name = this->left->getName();
+    return name;
+}
+
+string LessExpression::getRightName() const{
+    string name = this->right->getName();
+    return name;
+}
+
+string EqualExpression::getLeftName() const{
+    string name = this->left->getName();
+    return name;
+}
+
+string EqualExpression::getRightName() const{
+    string name = this->right->getName();
+    return name;
+}
+
 
 //less than boolean subclass functions
 LessExpression::LessExpression(NumericExpression* left, NumericExpression* right){
@@ -179,6 +199,10 @@ bool LessExpression::getValue() const{
     return this->left->getValue() < this->right->getValue();
 }
 
+bool LessExpression::getValue(int first, int second) const{
+    return first< second;
+}
+
 //equal expression subclass functions
 EqualExpression::EqualExpression(NumericExpression* left, NumericExpression* right){
     this->left = left;
@@ -196,4 +220,25 @@ string EqualExpression::format() const {
 
 bool EqualExpression::getValue() const{
     return this->left->getValue() == this->right->getValue();
+}
+
+bool EqualExpression::getValue(int first, int second) const{
+    return first==second;
+}
+
+//helper functions to get left and right values for if-then commands
+int LessExpression::getLeftValue() const{
+    return this->left->getValue();
+}
+
+int LessExpression::getRightValue() const{
+    return this->right->getValue();
+}
+
+int EqualExpression::getLeftValue() const{
+    return this->left->getValue();
+}
+
+int EqualExpression::getRightValue() const{
+    return this->right->getValue();
 }

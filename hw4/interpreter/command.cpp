@@ -93,7 +93,20 @@ string IfThenCommand::format() const {
 }
 
 void IfThenCommand::execute(Interpreter* interpreter) const{
-    if(conditional->getValue()){
+    string left_name = this->conditional->getLeftName();
+    string right_name = this->conditional->getRightName();
+    int left_value, right_value;
+    if(left_name!=""){
+        left_value = interpreter->current_variable_value(left_name);
+    }else{
+        left_value = this->conditional->getLeftValue();
+    }
+    if(right_name!=""){
+        right_value = interpreter->current_variable_value(right_name);
+    }else{
+        right_value = this->conditional->getRightValue();
+    }
+    if(conditional->getValue(left_value, right_value)){
         interpreter->goto_command(this->destination);
     }else{
         interpreter->increment_line();

@@ -115,6 +115,13 @@ public:
     virtual ~BooleanExpression() {}
     virtual std::string format() const = 0;
     virtual bool getValue() const = 0;
+    virtual bool getValue(int,int) const = 0;
+    //functions for handling variables as arguments in a boolean expression
+    virtual std::string getLeftName() const = 0;
+    virtual std::string getRightName() const = 0;
+    //getting left and right values
+    virtual int getLeftValue() const = 0;
+    virtual int getRightValue() const = 0;
 };
 
 //less than boolean expression
@@ -123,7 +130,13 @@ public:
     LessExpression(NumericExpression* left, NumericExpression* right);
     ~LessExpression();
     virtual bool getValue() const;
+    virtual bool getValue(int,int) const;
     virtual std::string format() const;
+    virtual std::string getLeftName() const;
+    virtual std::string getRightName() const;
+    //getting left and right values
+    virtual int getLeftValue() const;
+    virtual int getRightValue() const;
 private:
     NumericExpression* left;
     NumericExpression* right;
@@ -135,7 +148,13 @@ public:
     EqualExpression(NumericExpression* left, NumericExpression* right);
     ~EqualExpression();
     virtual bool getValue() const;
+    virtual bool getValue(int,int) const;
     virtual std::string format() const;
+    virtual std::string getLeftName() const;
+    virtual std::string getRightName() const;
+    //getting left and right values
+    virtual int getLeftValue() const;
+    virtual int getRightValue() const;
 private:
     NumericExpression* left;
     NumericExpression* right;
