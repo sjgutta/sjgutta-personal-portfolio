@@ -13,5 +13,8 @@ int main(int argc, char* argv[]) {
     ifstream input(argv[1]);
     Interpreter interpreter(input);
     interpreter.write(cout);
+    cout << "NOW EXECUTING THE PROGRAM" << endl;
+    cout << "-------------------------" << endl;
+    interpreter.main_execute();
     return 0;
 }

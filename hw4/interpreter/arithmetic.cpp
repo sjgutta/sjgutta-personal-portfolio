@@ -14,7 +14,7 @@ int NumericExpression::getValue() const{
 }
 
 void NumericExpression::setValue(int new_value){
-    this->value = value;
+    this->value = new_value;
 }
 
 //addition expression functions defined

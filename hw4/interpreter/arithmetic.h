@@ -14,7 +14,7 @@ public:
     virtual std::string format() const = 0;
     virtual int getValue() const;
     void setValue(int new_value);
-    virtual std::string getName() const{return "Not a variable";}
+    virtual std::string getName() const{return "";}
 protected:
     int value;
 };

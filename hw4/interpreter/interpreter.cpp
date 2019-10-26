@@ -183,29 +183,112 @@ void Interpreter::write(std::ostream& out) {
     }
 }
 
+//main execution function
+void Interpreter::main_execute(){
+    this->populate_index_map();
+    while(!this->over_condition()){
+        try:
+            this->program[current_line]->execute(this);
+        catch(Exception& e):
+            std::cout << e.what() << std::endl;
+            return;
+    }
+}
+
+//main execution helper function to populate the index_reference_list
+void Interpreter::populate_index_map(){
+    int program_line;
+    for(int i=0; i<int(program.size());i++){
+        program_line = this->program[i]->getLine();
+        index_reference_list[program_line] = i;
+    }
+}
 
 //implementing command executions functions
 
-void Interpreter::print_command(){
-
+void Interpreter::print_command(std::string name){
+    int length = name.length();
+    if(name[length-1]==']'){
+        if(variables_list.find(name)!=variables_list.end()){
+            std::cout << std::to_string(variables_list.find(name)->second->getValue()) << std::endl;
+        }else{
+            std::cout << std::to_string(0) << std::endl;
+        }
+    }else{
+        if(variables_list.find(name)!=variables_list.end()){
+            std::cout << std::to_string(variables_list.find(name)->second->getValue()) << std::endl;
+        }else{
+            //an error will be printed here
+        }
+    }
+    this->current_line += 1;
 }
 
 void Interpreter::let_command(NumericExpression* variable){
-    
+    std::string name = variable->getName();
+    std::map<std::string,NumericExpression*>::iterator it;
+    if(this->variable_exists(name)){
+        it = this->variables_list.find(name);
+        this->variables_list.erase(it);
+    }
+    this->variables_list[name] = variable;
+    this->current_line += 1;
 }
 
 void Interpreter::goto_command(int destination){
-    
-}
-
-void Interpreter::if_then_command(){
-    
+    if(index_reference_list.find(destination)!=index_reference_list.end()){
+        this->current_line = index_reference_list.find(destination)->second;
+    }else{
+        //print out error here
+    }
 }
 
 void Interpreter::return_command(){
-    
+    //if there is a go sub call
+    if(!gosubs_list.empty()){
+        this->current_line = gosubs_list.top();
+        gosubs_list.pop();
+    }else{
+        //an error will be printed or thrown here
+        throw("An error occurred");
+    }
 }
 
 void Interpreter::gosub_command(int destination){
-    
+    //store line that called the gosub command
+    int call_line = this->current_line;
+    gosubs_list.push(call_line);
+    //then do a goto pretty much
+    if(index_reference_list.find(destination)!=index_reference_list.end()){
+        this->current_line = index_reference_list.find(destination)->second;
+    }else{
+        //print out error here
+    }
+}
+
+//helper function to see if a variable exists
+bool Interpreter::variable_exists(std::string name){
+    std::map<std::string,NumericExpression*>::iterator it;
+    it = this->variables_list.find(name);
+    if(it==this->variables_list.end()){
+        return false;
+    }else{
+        return true;
+    }
+}
+
+//helper function to see if program should be over
+bool Interpreter::over_condition(){
+    if(this->is_over){
+        return true;
+    }
+    if(this->current_line >= int(program.size())){
+        return true;
+    }
+    return false;
+}
+
+//helper function to increment current line
+void Interpreter::increment_line(){
+    this->current_line += 1;
 }

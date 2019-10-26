@@ -28,7 +28,12 @@ string PrintCommand::format() const {
 }
 
 void PrintCommand::execute(Interpreter* interpreter) const{
-    cout << this->output->getValue() << endl;
+    if(this->output->getName()!=""){
+        interpreter->print_command(this->output->getName());
+    }else{
+        cout << this->output->getValue() << endl;
+        interpreter->increment_line();
+    }
 }
 
 //let command functions defined
@@ -91,7 +96,7 @@ void IfThenCommand::execute(Interpreter* interpreter) const{
     if(conditional->getValue()){
         interpreter->goto_command(this->destination);
     }else{
-        interpreter->if_then_command();
+        interpreter->increment_line();
     }
 }
 

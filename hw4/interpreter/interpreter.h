@@ -19,19 +19,22 @@ public:
     Interpreter(std::istream& in);
     ~Interpreter();
 
+    void main_execute();
     void write(std::ostream& out);
     NumericExpression* ParseNumeric(std::stringstream& stream);
     NumericExpression* ParseConstant(std::stringstream& stream, int value);
     NumericExpression* ParseVariableName(std::stringstream& stream);
-    void print_command();
+    void print_command(std::string name);
     void let_command(NumericExpression* variable);
     void goto_command(int destination);
-    void if_then_command();
     void gosub_command(int destination);
     void return_command();
     void end_command(){this->is_over = true;}
 
     //some helper functions for this class
+    void populate_index_map();
+    void increment_line();
+    bool over_condition();
     bool variable_exists(std::string name);
 private:
     void parse(std::istream& in);
