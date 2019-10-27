@@ -191,7 +191,8 @@ void Interpreter::main_execute(){
         try{
             this->program[current_line]->execute(this);
         }catch(std::exception& e){
-            std::cout << e.what() << std::endl;
+            std::string error_line = std::to_string(this->program[current_line]->getLine());
+            std::cout << "Error in Line " + error_line + ": "+ e.what() << std::endl;
             this->is_over = true;
         }
     }
@@ -243,6 +244,16 @@ void Interpreter::goto_command(int destination){
         this->current_line = index_reference_list.find(destination)->second;
     }else{
         //print out error here
+        throw std::invalid_argument("GOTO to non-existent line " + std::to_string(destination));
+    }
+}
+
+void Interpreter::then_command(int destination){
+    if(index_reference_list.find(destination)!=index_reference_list.end()){
+        this->current_line = index_reference_list.find(destination)->second;
+    }else{
+        //print out error here
+        throw std::invalid_argument("IF jump to non-existent line " + std::to_string(destination));
     }
 }
 
@@ -251,9 +262,10 @@ void Interpreter::return_command(){
     if(!gosubs_list.empty()){
         this->current_line = gosubs_list.top();
         gosubs_list.pop();
+        this->current_line += 1;
     }else{
         //an error will be printed or thrown here
-        throw std::logic_error("No matching gosub call");
+        throw std::logic_error("No matching GOSUB for RETURN");
     }
 }
 
@@ -265,6 +277,7 @@ void Interpreter::gosub_command(int destination){
     if(index_reference_list.find(destination)!=index_reference_list.end()){
         this->current_line = index_reference_list.find(destination)->second;
     }else{
+        throw std::invalid_argument("GOSUB to non-existent line " + std::to_string(destination));
         //print out error here
     }
 }

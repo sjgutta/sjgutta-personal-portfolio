@@ -29,6 +29,7 @@ public:
     void print_command(std::string name);
     void let_command(NumericExpression* variable);
     void goto_command(int destination);
+    void then_command(int destination);
     void gosub_command(int destination);
     void return_command();
     void end_command(){this->is_over = true;}
