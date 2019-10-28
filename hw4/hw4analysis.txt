@@ -1,0 +1,81 @@
+Sajan Gutta - CSCI 104 - Analysis Part for HW4
+
+High-level approach:
+My high-level approach to execution was mainly built around the interpreter class.
+I implemented a stack to track gosubs calls. I used an int to track the current_line
+being executed based on the index in the vector of the current command. A map was used
+to map from line number in the parsed code to the corresponding index of that command
+in the program vector. A map was also used from a string with a variable name to a pointer
+to a NumericExpression in order to store variables and their values. Each command type called 
+a specific execution function written inside the main interpreter class, so that there was 
+class based control over what a command does to the interpreter. Some helper functions were 
+used for building the map for the line numbers, incrementing the current line being executed,
+determining if a variable exists, finding the value of a variable based on the variables map,
+and determining if program execution should be over or not. Overall, this approach keeps everything
+within the defined classes to a point where the user only needs to provide an input file and 
+the program will take care of the rest.
+
+Problem 1:
+The GOTO command code is in lines 242-249 of interpreter.cpp.
+For this analysis, n is the lines in the program as this is what
+impacts the size of the map for the line numbers that is referenced.
+The GOTO command first does a find on the map from line in the code
+to index in the program vector. This takes logn time. Next, an iterator
+to the end is taken and compared to it. Getting the end takes 1 time so this
+part takes logn + 1 time. Next, assuming these are not equal and the line number
+is actually found which is every time for a valid program, a find is performed on
+the map again, and the pointer to its inherent object second is retrieved to get 
+the appropriate value to set the new executing index in the program vector to. This
+takes another logn time, putting the time at 2logn + 1. Thus, since I am assuming the
+if statement is true every time, the worst case analysis for run time is this 2logn + 1 
+value and the runtime is O(logn). The GOSUB command does the same thing as GOTO with some
+extra constant time to push the line number to a stack that tracks the GOSUB commands.
+The IF jump functions the exact same except is throws a different error message. Thus, both
+GOSUB and IF also use O(logn) time. GOSUB is in lines 272-283 of interpreter.cpp and
+the code for an IF jump is in lines 251-258 of interpreter.cpp.
+
+Problem 2:
+Once a RETURN command object is executed, it calls the return command function
+defined for the interpreter class. This function is in lines 260-270 of interpreter.cpp.
+In this analysis, n is the size of the gosubs stack at the moment, or more specifically
+how many GOSUB commands have not been cancelled by a RETURN yet. Again, assuming worst case
+(or really best-case since the input program was correct), the error in this function will not
+be thrown and the if statement condition will be true. This checks if the gosubs stack is empty
+which has time complexity of O(1). Next, the current_line variable is set to be the top value of
+the gosubs stack which takes O(1). Then, the top is popped which takes O(1). Finally, the current_line
+is implemented which takes O(1). Thus, since everything happens in 1 runtime, the runtime of the
+return function is O(1) and actually can be simplified to be Big-theta(1) since there are no loops.
+
+Problem 3:
+For this analysis, consider n to be the size of the variables_list map, aka the number of initialized
+variables at this point in the execution of the program.
+The value of a variable or runtime of finding the value is initiated with the helper function in the
+interpreter class called current_variable_value and is on lines 313-329 of interpreter.cpp. A variable
+is over written using the LET command. This is in lines 231-240 of interpreter.cpp. The function for 
+getting a variable's value finds the name of the variable in the variables_list map and then checks to
+see if this equals the end or not. This takes logn+1 time, as in Problem 1. If this is true, then 
+find is done again on the map to get the variable, the 'second' object is accessed, and getValue() 
+which takes 1 time is run on the numericExpression object to get its value. Thus, this part runs in 
+logn+logn+1 time which is logn. There is also the case where the variable is not found in the map 
+in which case just 0 is returned for the value. This would take logn+1+1 time but since it is not 
+possible to tell how often the variable being found exists in the map or not, a conservative estimate
+is best so the function takes O(logn) time.
+For finding setting the value of a variable, the let command detailed above is run. This starts with 
+two lines that take constant time because one retrieves a string from a helper function that simply
+returns a data member, and the other line initializes and iterator. Then, it checks if the variable
+already exists by using its name in a find function in the map in a function that takes logn. In the
+case that the variable exists, the iterator is set equal to the result of finding it again in the map,
+another logn time. Finally, the iterator is erased, taking logn time again. After this, operator[] is
+used on the map to add the new variable with its new value taking another logn in time and the 
+current_line is then incremented in constant time. In the case that the variable already exists, the
+function thus takes a total of 3logn time which is O(logn) since this is considering the case of the
+largest runtime the function can have.
+
+Problem 4:
+This is the same as finding the value of a variable in Problem 3 as it uses the same function. Array
+Variables are parsed into their own type of object, which return a different name by appending the 
+brackets and index value to the string name of the array variable. Thus, this name can be used in 
+the same current_variable_value function described in Problem 3 above. This name is used as a key
+and will take O(logn) time to retrieve the value of the array variable via the variables_list map.
+The function returns 0, as it should, in the case of the array variable not being set at that specific
+index.
