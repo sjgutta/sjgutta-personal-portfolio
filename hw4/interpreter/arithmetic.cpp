@@ -75,8 +75,8 @@ int DivisionExpression::getValue(Interpreter* interpreter) const{
     int right_value = this->right->getValue(interpreter);
     int left_value = this->left->getValue(interpreter);
     if(right_value==0){
-        throw invalid_argument("Division by 0: " + this->left->format() + "=" +
-            std::to_string(left_value) + ", " +  this->right->format() + "=" + std::to_string(right_value));
+        throw invalid_argument("Division by 0: " + this->left->format() + " = " +
+            std::to_string(left_value) + ", " +  this->right->format() + " = " + std::to_string(right_value));
     }
     return this->left->getValue(interpreter)/this->right->getValue(interpreter);
 }
