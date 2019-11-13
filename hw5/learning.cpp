@@ -14,13 +14,13 @@ void bestClassCombo(string* class_names, float* workloads, float* learning, int 
     if(worked>=work_capacity){
         return;
     }
-    //checking if no classes left to include
-    if(checking_class>=num_classes){
-        return;
-    }
     //checking if max_learning should be increased
     if(learned>max_learning){
         max_learning = learned;
+    }
+    //checking if no classes left to include
+    if(checking_class>=num_classes){
+        return;
     }
     //making recursive calls, one including next class and one not
     bestClassCombo(class_names, workloads, learning, num_classes, max_learning, work_capacity,
