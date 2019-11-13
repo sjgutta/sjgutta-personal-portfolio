@@ -5,3 +5,5 @@
 ## For Problem 1
 * Look in hw5q1.pdf for the answer. The pdf should show up
 properly on the VM and definitely will on github.
+* Sometimes the pdf doesn't render properly on Safari.
+If that happens it will still work on Google Chrome.
