@@ -1,4 +1,6 @@
 //implementation of templated minheap
+#include <vector>
+#include <stdexcept>
 
 template <typename T>
 class MinHeap {
@@ -8,7 +10,7 @@ class MinHeap {
             T data;
             int priority;
             int position;
-        }
+        };
 
     public:
     MinHeap (int d);
@@ -55,19 +57,21 @@ class MinHeap {
         int d;
         //vector used for updating priority
         //tracks order of being added
-        std::vector<Node*> order
+        std::vector<Node*> order;
 
 };
 
 template <typename T>
 MinHeap<T>::MinHeap(int d){
+    if(d<2){
+        throw std::invalid_argument("MinHeap must have a d value of 2 or more");
+    }
     this->d = d;
-    this->current_call = 0;
 }
 
 template <typename T>
 MinHeap<T>::~MinHeap(){
-    for(int i=0; i<order.size();i++){
+    for(int i=0; i<int(order.size());i++){
         delete order[i];
     }
 }
@@ -84,6 +88,7 @@ int MinHeap<T>::add(T item, int priority){
     heap.push_back(temp);
     order.push_back(temp);
     trickleUp(heap.size()-1);
+    return order.size()-1;
 }
 
 template <typename T>
@@ -102,9 +107,9 @@ void MinHeap<T>::remove(){
 template <typename T>
 bool MinHeap<T>::isEmpty(){
     if(heap.empty()){
-        return True;
+        return true;
     }else{
-        return False;
+        return false;
     }
 }
 
@@ -135,7 +140,8 @@ void MinHeap<T>::update(int nth, int priority){
 
 template <typename T>
 void MinHeap<T>::trickleUp(int pos){
-    if (pos > 0 && heap[pos]->priority < heap[(pos-1)/d]->priority){
+    if ((pos > 0 && heap[pos]->priority < heap[(pos-1)/d]->priority) || 
+        (heap[pos]->priority == heap[(pos-1)/d]->priority &&  heap[pos]->data < heap[(pos-1)/d]->data)){
         swap(pos, (pos-1)/d);
         trickleUp((pos-1)/d);
     }
@@ -143,16 +149,20 @@ void MinHeap<T>::trickleUp(int pos){
 
 template <typename T>
 void MinHeap<T>::trickleDown(int pos){
-    if(d*pos+1<heap.size()){
+    if(d*pos+1<int(heap.size())){
         int smallest_child = pos*d + 1;
         for(int j=1; j<d; j++){
-            if(pos*d+1+j<heap.size()){
-                if(heap[pos*d+1+j]->priority < heap[smallest_child]->priority){
+            if(pos*d+1+j<int(heap.size())){
+                if(heap[pos*d+1+j]->priority < heap[smallest_child]->priority || 
+                    (heap[pos*d+1+j]->priority == heap[smallest_child]->priority && 
+                    heap[pos*d+1+j]->data < heap[smallest_child]->data)){
                     smallest_child = pos*d+1+j;
                 }
             }
         }
-        if (heap[smallest_child]->priority < heap[pos]->priority){
+        if (heap[smallest_child]->priority < heap[pos]->priority || 
+            (heap[smallest_child]->priority == heap[pos]->priority &&
+            heap[smallest_child]->data < heap[pos]->data)){
             swap(smallest_child, pos);
             trickleDown(smallest_child);
         }
