@@ -44,6 +44,7 @@ class MinHeap {
         /* returns true iff there are no elements on the heap. */
 
     protected:
+    //helper functions to be used in other interface functions
     void trickleUp(int pos);
 
     void swap(int pos1, int pos2);
@@ -63,6 +64,7 @@ class MinHeap {
 
 template <typename T>
 MinHeap<T>::MinHeap(int d){
+    //construct with proper value for the d-ary heap
     if(d<2){
         throw std::invalid_argument("MinHeap must have a d value of 2 or more");
     }
@@ -71,6 +73,8 @@ MinHeap<T>::MinHeap(int d){
 
 template <typename T>
 MinHeap<T>::~MinHeap(){
+    //clean up memory
+    //order vector holds all nodes that were added to the heap
     for(int i=0; i<int(order.size());i++){
         delete order[i];
     }
@@ -84,28 +88,44 @@ MinHeap<T>::Node::Node(T item, int priority, int position):data(item),
 
 template <typename T>
 int MinHeap<T>::add(T item, int priority){
+    //dynamically allocate new node, add to actual heap and order vector
     Node* temp = new Node(item, priority, heap.size());
     heap.push_back(temp);
     order.push_back(temp);
+    //now trickle up to put in proper place
     trickleUp(heap.size()-1);
+    //return number of add calls before this one
     return order.size()-1;
 }
 
 template <typename T>
 const T & MinHeap<T>::peek () const{
-    return heap[0]->data;
+    //use first item in the vector for peek to return top of heap
+    if(!heap.empty()){
+        return heap[0]->data;
+    }else{
+        throw std::logic_error("MinHeap is empty. There is nothing to peek at.");
+    }
 }
 
 template <typename T>
 void MinHeap<T>::remove(){
+    if(heap.empty()){
+        throw std::logic_error("There is nothing to remove");
+    }
+    //swap top to bottom
     swap(0, heap.size()-1);
+    //effectively remove the node by setting position to -1
+    //pop it from back of the actual heap vector as well
     heap[heap.size()-1]->position = -1;
     heap.pop_back();
+    //take node swapped to top and put it back where it belongs
     trickleDown(0);
 }
 
 template <typename T>
 bool MinHeap<T>::isEmpty(){
+    //use heap vector to determine if heap is empty
     if(heap.empty()){
         return true;
     }else{
@@ -115,6 +135,7 @@ bool MinHeap<T>::isEmpty(){
 
 template <typename T>
 void MinHeap<T>::swap(int pos1, int pos2){
+    //swaps position members and indices of nodes at pos1 and pos2
     Node* temp = heap[pos1];
     temp->position = pos2;
     heap[pos1] = heap[pos2];
@@ -124,10 +145,16 @@ void MinHeap<T>::swap(int pos1, int pos2){
 
 template <typename T>
 void MinHeap<T>::update(int nth, int priority){
+    if(nth<0 || nth>=int(order.size())){
+        throw std::invalid_argument("Tried to update an invalid node");
+    }
+    //change priority using order array to find proper node
     Node* temp = order[nth];
+    //if position is -1, the node was previously removed so nothing happens
     if(temp->position==-1){
         return;
     }
+    //trickle the item up or down based on if priority was raised or lowered
     if(priority > temp->priority){
         temp->priority = priority;
         trickleDown(temp->position);
@@ -140,6 +167,9 @@ void MinHeap<T>::update(int nth, int priority){
 
 template <typename T>
 void MinHeap<T>::trickleUp(int pos){
+    //determine if node has lower priority than parent and trickle up
+    //call recursively if this happens
+    //use the T item as a tiebreaker value
     if ((pos > 0 && heap[pos]->priority < heap[(pos-1)/d]->priority) || 
         (heap[pos]->priority == heap[(pos-1)/d]->priority &&  heap[pos]->data < heap[(pos-1)/d]->data)){
         swap(pos, (pos-1)/d);
@@ -149,7 +179,10 @@ void MinHeap<T>::trickleUp(int pos){
 
 template <typename T>
 void MinHeap<T>::trickleDown(int pos){
+    //make sure not a child node being trickled
     if(d*pos+1<int(heap.size())){
+        //find the smallest child priority to swap with
+        //use T item as a tiebreaker
         int smallest_child = pos*d + 1;
         for(int j=1; j<d; j++){
             if(pos*d+1+j<int(heap.size())){
@@ -160,6 +193,9 @@ void MinHeap<T>::trickleDown(int pos){
                 }
             }
         }
+        //once smallest child is found, make swap if necessary
+        //use T item as tiebreaker
+        //recursively call trickle down
         if (heap[smallest_child]->priority < heap[pos]->priority || 
             (heap[smallest_child]->priority == heap[pos]->priority &&
             heap[smallest_child]->data < heap[pos]->data)){
