@@ -50,7 +50,12 @@ int main(int argc, char* argv[]){
     start = makeUpper(start);
     string end = argv[2];
     end = makeUpper(end);
-    
+    //if the words aren't equal length, immediately end program
+    if(start.length()!=end.length()){
+        cout << "No transformation" << endl;
+        cout << 0 << endl;
+        return 0;
+    }
     ifstream myfile(argv[3]);
     int numWords;
     myfile >> numWords;
