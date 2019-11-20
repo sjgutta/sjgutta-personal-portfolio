@@ -65,7 +65,7 @@ class MinHeap {
 template <typename T>
 MinHeap<T>::MinHeap(int d_val){
     //construct with proper value for the d-ary heap
-    if(d<2){
+    if(d_val<2){
         throw std::invalid_argument("MinHeap must have a d value of 2 or more");
     }
     this->d = d_val;
