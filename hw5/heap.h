@@ -89,7 +89,7 @@ MinHeap<T>::Node::Node(T item, int priority_val, int position_val):data(item),
 template <typename T>
 int MinHeap<T>::add(T item, int priority){
     //dynamically allocate new node, add to actual heap and order vector
-    Node* temp = new Node(item, priority, int(heap.size());
+    Node* temp = new Node(item, priority, int(heap.size()));
     heap.push_back(temp);
     order.push_back(temp);
     //now trickle up to put in proper place
