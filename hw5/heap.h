@@ -6,14 +6,14 @@ template <typename T>
 class MinHeap {
     private:
     struct Node{
-            Node(T data, int priority, int position);
+            Node(T data, int priority_val, int position_val);
             T data;
             int priority;
             int position;
         };
 
     public:
-    MinHeap (int d);
+    MinHeap (int d_val);
     /* Constructor that builds a d-ary Min Heap
         This should work for any d >= 2,
         but doesn't have to do anything for smaller d.*/
@@ -63,12 +63,12 @@ class MinHeap {
 };
 
 template <typename T>
-MinHeap<T>::MinHeap(int d){
+MinHeap<T>::MinHeap(int d_val){
     //construct with proper value for the d-ary heap
     if(d<2){
         throw std::invalid_argument("MinHeap must have a d value of 2 or more");
     }
-    this->d = d;
+    this->d = d_val;
 }
 
 template <typename T>
@@ -81,21 +81,21 @@ MinHeap<T>::~MinHeap(){
 }
 
 template <typename T>
-MinHeap<T>::Node::Node(T item, int priority, int position):data(item), 
-    priority(priority), position(position){
+MinHeap<T>::Node::Node(T item, int priority_val, int position_val):data(item), 
+    priority(priority_val), position(position_val){
 
 }
 
 template <typename T>
 int MinHeap<T>::add(T item, int priority){
     //dynamically allocate new node, add to actual heap and order vector
-    Node* temp = new Node(item, priority, heap.size());
+    Node* temp = new Node(item, priority, int(heap.size());
     heap.push_back(temp);
     order.push_back(temp);
     //now trickle up to put in proper place
-    trickleUp(heap.size()-1);
+    trickleUp(int(heap.size())-1);
     //return number of add calls before this one
-    return order.size()-1;
+    return int(order.size())-1;
 }
 
 template <typename T>
@@ -114,7 +114,7 @@ void MinHeap<T>::remove(){
         throw std::logic_error("There is nothing to remove");
     }
     //swap top to bottom
-    swap(0, heap.size()-1);
+    swap(0, int(heap.size())-1);
     //effectively remove the node by setting position to -1
     //pop it from back of the actual heap vector as well
     heap[heap.size()-1]->position = -1;
