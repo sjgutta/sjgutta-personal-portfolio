@@ -240,7 +240,7 @@ protected:
 	Node<Key, Value>* internalFind(const Key& key) const;
 	Node<Key, Value>* getSmallestNode() const;
 	void printRoot (Node<Key, Value>* root) const;
-
+	void clearHelper(Node<Key,Value>* current);
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
 
@@ -369,12 +369,14 @@ template<typename Key, typename Value>
 BinarySearchTree<Key, Value>::BinarySearchTree()
 {
 	// TODO
+	mRoot=nullptr;
 }
 
 template<typename Key, typename Value>
 BinarySearchTree<Key, Value>::~BinarySearchTree()
 {
 	// TODO
+	clear();
 }
 
 template<typename Key, typename Value>
@@ -424,6 +426,35 @@ template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 {
 	// TODO
+	if(mRoot==nullptr){
+		Node<Key,Value>* adding = new Node<Key,Value>(keyValuePair.first,keyValuePair.second,nullptr);
+		mRoot = adding;
+		return;
+	}
+	Node<Key,Value>* parent = nullptr;
+	Node<Key,Value>* current = mRoot;
+	while(current!=nullptr){
+		if(keyValuePair.first<current->getKey()){
+			parent = current;
+			current = current->getLeft();
+			if(!current){
+				Node<Key,Value>* adding = new Node<Key,Value>(keyValuePair.first,
+					keyValuePair.second,parent);
+				parent->setLeft(adding);
+				return;
+			}
+		}else{
+			parent = current;
+			current = current->getRight();
+			if(!current){
+				Node<Key,Value>* adding = new Node<Key,Value>(keyValuePair.first,
+					keyValuePair.second,parent);
+				parent->setRight(adding);
+				return;
+			}
+		}
+	}
+
 }
 
 /**
@@ -434,6 +465,22 @@ template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::clear()
 {
 	// TODO
+	clearHelper(mRoot);
+}
+
+template<typename Key, typename Value>
+void BinarySearchTree<Key, Value>::clearHelper(Node<Key,Value>* current)
+{
+	// TODO
+	Node<Key,Value>* left = current->getLeft();
+	Node<Key,Value>* right = current->getRight();
+	delete current;
+	if(left!=nullptr){
+		clearHelper(left);
+	}
+	if(right!=nullptr){
+		clearHelper(right);
+	}
 }
 
 /**
@@ -442,7 +489,15 @@ void BinarySearchTree<Key, Value>::clear()
 template<typename Key, typename Value>
 Node<Key, Value>* BinarySearchTree<Key, Value>::getSmallestNode() const
 {
-	// TODO
+	// TODOr
+	if(mRoot==nullptr){
+		return mRoot;
+	}
+	Node<Key,Value>* current = mRoot;
+	while(current->getLeft()!=nullptr){
+		current = current->getLeft();
+	}
+	return current;
 }
 
 /**
@@ -454,6 +509,21 @@ template<typename Key, typename Value>
 Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) const
 {
 	// TODO
+	if(mRoot==nullptr){
+		return nullptr;
+	}
+	Node<Key,Value>* current = mRoot;
+	while(current!=nullptr || current->getKey()!=key){
+		if(key==current->getKey()){
+			return current;
+		}
+		if(key<current->getKey()){
+			current = current->getLeft();
+		}else{
+			current = current->getRight();
+		}
+	}
+	return nullptr;
 }
 
 /**
