@@ -243,6 +243,7 @@ protected:
 	void clearHelper(Node<Key,Value>* current);
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
+	void remove(const Key& key);
 
 protected:
 	Node<Key, Value>* mRoot;
@@ -528,6 +529,47 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) con
 		}
 	}
 	return nullptr;
+}
+
+template<typename Key, typename Value>
+void BinarySearchTree<Key, Value>::remove(const Key& key)
+{
+	Node<Key,Value>* removing = internalFind(key);
+	if(!removing){
+		return;
+	}
+	if(removing==mRoot){
+		if(removing->getLeft()==nullptr && removing->getRight()==nullptr){
+			mRoot = nullptr;
+			delete removing;
+			return;
+		}else if(removing->getLeft()==nullptr && removing->getRight()!=nullptr){
+			mRoot = removing->getRight();
+			mRoot->setParent(nullptr);
+			delete removing;
+			return;
+		}else if(removing->getLeft()!=nullptr && removing->getRight()==nullptr){
+			mRoot = removing->getLeft();
+			mRoot->setParent(nullptr);
+			delete removing;
+			return;
+		}else{
+			Node<Key, Value>* swapToRoot = mRoot->getLeft();
+			while(swapToRoot->getRight()!=nullptr){
+				swapToRoot = swapToRoot->getRight();
+			}
+			if(swapToRoot->getLeft()!=nullptr){
+				swapToRoot->getLeft()->setParent(swapToRoot->getParent());
+				swapToRoot->getParent()->setRight(swapToRoot->getLeft());
+			}
+			swapToRoot->setParent(nullptr);
+			swapToRoot->setLeft(mRoot->getLeft());
+			swapToRoot->setRight(mRoot->getRight());
+			delete removing;
+			mRoot = swapToRoot;
+			return;
+		}
+	}
 }
 
 /**
