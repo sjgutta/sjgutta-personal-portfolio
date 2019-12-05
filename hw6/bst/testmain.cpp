@@ -5,31 +5,26 @@ using namespace std;
 
 int main() {
     BinarySearchTree<int, int> bst;
-    // pair<int, int> a(1, 1);
-    pair<int, int> b(2, 2);
-    pair<int, int> c(3, 3);
-    pair<int, int> d(4, 4);
-    pair<int, int> e(5, 5);
-    pair<int, int> g(6, 6);
-    pair<int, int> h(7, 7);
-    pair<int, int> i(8, 8);
-    pair<int, int> j(10, 10);
-    pair<int, int> k(9, 9);
+    pair<int, int> one(1, 1);
+    pair<int, int> two(2, 2);
+    pair<int, int> three(3, 3);
+    pair<int, int> four(4, 4);
+    pair<int, int> five(5, 5);
+    pair<int, int> six(6, 6);
+    pair<int, int> seven(7, 7);
+    pair<int, int> eight(8, 8);
+    pair<int, int> nine(9, 9);
+    pair<int, int> ten(10, 10);
+    pair<int, int> eleven(11, 11);
+    pair<int, int> twelve(12, 12);
+    pair<int, int> thirteen(13, 13);
+    pair<int, int> fourteen(14, 14);
     //pair<int, int> j(9, 9);
-    bst.insert(e);
-    
-    bst.insert(c);
-    bst.insert(h);
-    
-    bst.insert(d);
-    bst.insert(g);
-    
-    bst.insert(b);
-    bst.insert(i);
-    
-    //bst.insert(a);
-    bst.insert(j);
-    bst.insert(k);
-    bst.remove(5);
+    bst.insert(four);
+    bst.insert(six);
+    bst.insert(two);
+    bst.insert(three);
+    bst.print();
+    bst.remove(4);
     bst.print();
 }
