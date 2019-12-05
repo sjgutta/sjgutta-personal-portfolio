@@ -598,8 +598,6 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 			swapToRoot->getLeft()->setParent(swapToRoot);
 			swapToRoot->getRight()->setParent(swapToRoot);
 			mRoot = swapToRoot;
-			//removing->setRight(nullptr);
-			//removing->setLeft(nullptr);
 			delete removing;
 			return;
 		}
@@ -642,6 +640,8 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 		swapToRoot->setParent(removing->getParent());
 		swapToRoot->setLeft(removing->getLeft());
 		swapToRoot->setRight(removing->getRight());
+		swapToRoot->getLeft()->setParent(swapToRoot);
+		swapToRoot->getRight()->setParent(swapToRoot);
 		delete removing;
 		return;
 	}
