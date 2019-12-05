@@ -9,10 +9,12 @@ int main() {
     pair<int, int> b(2, 2);
     pair<int, int> c(3, 3);
     pair<int, int> d(4, 4);
-    pair<int, int> e(4, 5);
+    pair<int, int> e(5, 5);
     pair<int, int> g(6, 6);
     pair<int, int> h(7, 7);
     pair<int, int> i(8, 8);
+    pair<int, int> j(10, 10);
+    pair<int, int> k(9, 9);
     //pair<int, int> j(9, 9);
     bst.insert(e);
     
@@ -26,7 +28,8 @@ int main() {
     bst.insert(i);
     
     //bst.insert(a);
-    //bst.insert(j);
-    
+    bst.insert(j);
+    bst.insert(k);
+    bst.remove(5);
     bst.print();
 }

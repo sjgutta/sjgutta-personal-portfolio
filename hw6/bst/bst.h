@@ -235,16 +235,17 @@ public:
 	iterator begin() const;
 	iterator end() const;
 	iterator find(const Key& key) const;
+	void remove(const Key& key);
 
 protected:
 	Node<Key, Value>* internalFind(const Key& key) const;
+	Node<Key, Value>* internalFindHelper(const Key& key);
 	Node<Key, Value>* getSmallestNode() const;
 	void printRoot (Node<Key, Value>* root) const;
 	void clearHelper(Node<Key,Value>* current);
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
-	void remove(const Key& key);
-
+	
 protected:
 	Node<Key, Value>* mRoot;
 
@@ -531,10 +532,37 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) con
 	return nullptr;
 }
 
+/**
+* Helper function to find a node with given key, k and
+* return a pointer to it or NULL if no item with that key
+* exists. This version is non const for use elsewhere.
+*/
+template<typename Key, typename Value>
+Node<Key, Value>* BinarySearchTree<Key, Value>::internalFindHelper(const Key& key)
+{
+	// TODO
+	if(mRoot==nullptr){
+		return nullptr;
+	}
+	Node<Key,Value>* current = mRoot;
+	while(current!=nullptr || current->getKey()!=key){
+		if(key==current->getKey()){
+			return current;
+		}
+		if(key<current->getKey()){
+			current = current->getLeft();
+		}else{
+			current = current->getRight();
+		}
+	}
+	return nullptr;
+}
+
+//This helper function will be useful for avl and splay tree functions
 template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::remove(const Key& key)
 {
-	Node<Key,Value>* removing = internalFind(key);
+	Node<Key,Value>* removing = internalFindHelper(key);
 	if(!removing){
 		return;
 	}
@@ -561,14 +589,61 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 			if(swapToRoot->getLeft()!=nullptr){
 				swapToRoot->getLeft()->setParent(swapToRoot->getParent());
 				swapToRoot->getParent()->setRight(swapToRoot->getLeft());
+			}else{
+				swapToRoot->getParent()->setRight(nullptr);
 			}
 			swapToRoot->setParent(nullptr);
 			swapToRoot->setLeft(mRoot->getLeft());
 			swapToRoot->setRight(mRoot->getRight());
-			delete removing;
+			swapToRoot->getLeft()->setParent(swapToRoot);
+			swapToRoot->getRight()->setParent(swapToRoot);
 			mRoot = swapToRoot;
+			//removing->setRight(nullptr);
+			//removing->setLeft(nullptr);
+			delete removing;
 			return;
 		}
+	}
+	if(removing->getLeft()==nullptr && removing->getRight()==nullptr){
+		if(removing->getParent()->getLeft()==removing){
+			removing->getParent()->setLeft(nullptr);
+		}else{
+			removing->getParent()->setRight(nullptr);
+		}
+		delete removing;
+		return;
+	}else if(removing->getLeft()==nullptr && removing->getRight()!=nullptr){
+		if(removing->getParent()->getLeft()==removing){
+			removing->getParent()->setLeft(removing->getRight());
+		}else{
+			removing->getParent()->setRight(removing->getRight());
+		}
+		removing->getRight()->setParent(removing->getParent());
+		delete removing;
+		return;
+	}else if(removing->getLeft()!=nullptr && removing->getRight()==nullptr){
+		if(removing->getParent()->getLeft()==removing){
+			removing->getParent()->setLeft(removing->getLeft());
+		}else{
+			removing->getParent()->setRight(removing->getLeft());
+		}
+		removing->getLeft()->setParent(removing->getParent());
+		delete removing;
+		return;
+	}else{
+		Node<Key, Value>* swapToRoot = removing->getLeft();
+		while(swapToRoot->getRight()!=nullptr){
+			swapToRoot = swapToRoot->getRight();
+		}
+		if(swapToRoot->getLeft()!=nullptr){
+			swapToRoot->getLeft()->setParent(swapToRoot->getParent());
+			swapToRoot->getParent()->setRight(swapToRoot->getLeft());
+		}
+		swapToRoot->setParent(removing->getParent());
+		swapToRoot->setLeft(removing->getLeft());
+		swapToRoot->setRight(removing->getRight());
+		delete removing;
+		return;
 	}
 }
 
