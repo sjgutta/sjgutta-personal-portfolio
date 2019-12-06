@@ -20,11 +20,19 @@ int main() {
     pair<int, int> thirteen(13, 13);
     pair<int, int> fourteen(14, 14);
     //pair<int, int> j(9, 9);
+    bst.insert(eight);
     bst.insert(four);
-    bst.insert(six);
+    bst.insert(eleven);
     bst.insert(two);
+    bst.insert(six);
+    bst.insert(ten);
+    bst.insert(thirteen);
     bst.insert(three);
+    bst.insert(nine);
+    bst.insert(twelve);
+    bst.insert(five);
     bst.print();
-    bst.remove(4);
+    bst.remove(6);
+    //bst.remove(11);
     bst.print();
 }

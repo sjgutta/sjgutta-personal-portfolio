@@ -235,7 +235,6 @@ public:
 	iterator begin() const;
 	iterator end() const;
 	iterator find(const Key& key) const;
-	void remove(const Key& key);
 
 protected:
 	Node<Key, Value>* internalFind(const Key& key) const;
@@ -244,6 +243,7 @@ protected:
 	void clearHelper(Node<Key,Value>* current);
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
+	void remove(const Key& key);
 	
 protected:
 	Node<Key, Value>* mRoot;
@@ -620,8 +620,13 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 		return;
 	}else{
 		Node<Key, Value>* swapToRoot = removing->getLeft();
+		bool wentRight = false;
 		while(swapToRoot->getRight()!=nullptr){
 			swapToRoot = swapToRoot->getRight();
+			wentRight = true;
+		}
+		if(wentRight){
+			swapToRoot->getParent()->setRight(nullptr);
 		}
 		swapToRoot->setParent(removing->getParent());
 		if(removing->getLeft()!=swapToRoot){
