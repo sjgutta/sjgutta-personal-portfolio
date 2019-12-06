@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include "../bst/bst.h"
+#include "../bst/print_bst.h"
 
 /**
 * A special kind of node for an AVL tree, which adds the height as a data member, plus 
@@ -21,6 +21,7 @@ public:
 
 	// Getter/setter for the node's height.
 	int getHeight() const;
+	int getBalance() const;
 	void setHeight(int height);
 
 	// Getters for parent, left, and right. These need to be redefined since they 
@@ -67,6 +68,21 @@ template<typename Key, typename Value>
 int AVLNode<Key, Value>::getHeight() const
 {
 	return mHeight;
+}
+
+//function to calculate balance of a node
+template<typename Key, typename Value>
+int AVLNode<Key, Value>::getBalance() const
+{
+	int left_height = 0;
+	int right_height = 0;
+	if(this->mLeft!=nullptr){
+		left_height = this->getLeft()->getHeight()+1;
+	}
+	if(this->mRight!=nullptr){
+		right_height = this->getRight()->getHeight()+1;
+	}
+	return right_height - left_height;
 }
 
 /**
@@ -126,6 +142,8 @@ public:
 private:
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
+	void insert_fix(AVLNode<Key, Value>* node, AVLNode<Key, Value>* inserted);
+	void fixHeights(AVLNode<Key, Value>* node);
 };
 
 /*
@@ -141,7 +159,64 @@ template<typename Key, typename Value>
 void AVLTree<Key, Value>::insert(const std::pair<Key, Value>& keyValuePair)
 {
 	// TODO
+	if(this->mRoot==nullptr){
+		AVLNode<Key,Value>* adding = new AVLNode<Key,Value>(keyValuePair.first,keyValuePair.second,nullptr);
+		this->mRoot = adding;
+		return;
+	}
+	AVLNode<Key,Value>* parent = nullptr;
+	AVLNode<Key,Value>* current = static_cast<AVLNode<Key,Value>*>(this->mRoot);
+	AVLNode<Key,Value>* adding;
+	while(current!=nullptr){
+		if(keyValuePair.first==current->getKey()){
+			current->setValue(keyValuePair.second);
+			return;
+		}
+		if(keyValuePair.first<current->getKey()){
+			parent = current;
+			current = current->getLeft();
+			if(!current){
+				adding = new AVLNode<Key,Value>(keyValuePair.first,
+					keyValuePair.second,parent);
+				parent->setLeft(adding);
+			}
+		}else{
+			parent = current;
+			current = current->getRight();
+			if(!current){
+				adding = new AVLNode<Key,Value>(keyValuePair.first,
+					keyValuePair.second,parent);
+				parent->setRight(adding);
+			}
+		}
+	}
+	fixHeights(adding->getParent());
+	if(adding->getParent()->getBalance()!=0){
+		insert_fix(adding->getParent(), adding);
+	}
 }
+
+template<typename Key, typename Value>
+void AVLTree<Key, Value>::fixHeights(AVLNode<Key, Value>* node){
+	if(node==nullptr){
+		return;
+	}
+	if(node->getLeft()!=nullptr && node->getRight()==nullptr){
+		node->setHeight(node->getLeft()->getHeight()+1);
+	}else if(node->getLeft()==nullptr && node->getRight()!=nullptr){
+		node->setHeight(node->getRight()->getHeight()+1);
+	}else if(node->getLeft()!=nullptr && node->getRight()!=nullptr){
+		if(node->getLeft()->getHeight()>node->getRight()->getHeight()){
+			node->setHeight(node->getLeft()->getHeight()+1);
+		}else{
+			node->setHeight(node->getRight()->getHeight()+1);
+		}
+	}else{
+		node->setHeight(0);
+	}
+	fixHeights(node->getParent());
+}
+
 
 /**
 * Remove function for a given key. Finds the node, reattaches pointers, and then balances when finished. 
@@ -150,6 +225,42 @@ template<typename Key, typename Value>
 void AVLTree<Key, Value>::remove(const Key& key)
 {
 	// TODO
+}
+
+template<typename Key, typename Value>
+void AVLTree<Key, Value>::insert_fix(AVLNode<Key, Value>* node, AVLNode<Key, Value>* inserted){
+	if(node == nullptr){
+		return;
+	}
+	int balance = node->getBalance();
+	if(balance!=-1 && balance!= 1){
+		if(balance < -1){
+			if(inserted->getKey() < node->getLeft()->getKey()){
+				//Left Left Case
+				BinarySearchTree<Key, Value>::rotateRight(node);
+				fixHeights(node);
+			}else{
+				//Left Right Case
+				BinarySearchTree<Key, Value>::rotateLeft(node->getLeft());
+				fixHeights(node->getLeft()->getLeft());
+				BinarySearchTree<Key, Value>::rotateRight(node);
+				fixHeights(node);
+			}
+		}else if(balance > 1){
+			if(inserted->getKey() < node->getRight()->getKey()){
+				//Right Left Case
+				BinarySearchTree<Key, Value>::rotateRight(node->getRight());
+				fixHeights(node->getRight()->getRight());
+				BinarySearchTree<Key, Value>::rotateLeft(node);
+				fixHeights(node);
+			}else{
+				//Right Right Case
+				BinarySearchTree<Key, Value>::rotateLeft(node);
+				fixHeights(node);
+			}
+		}
+	}
+	insert_fix(node->getParent(), inserted);
 }
 
 /*

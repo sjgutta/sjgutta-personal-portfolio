@@ -1,10 +1,10 @@
-#include "print_bst.h"
+#include "avlbst.h"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    BinarySearchTree<int, int> bst;
+    AVLTree<int, int> bst;
     pair<int, int> one(1, 1);
     pair<int, int> two(2, 2);
     pair<int, int> three(3, 3);
@@ -20,18 +20,18 @@ int main() {
     pair<int, int> thirteen(13, 13);
     pair<int, int> fourteen(14, 14);
     //pair<int, int> j(9, 9);
-    bst.insert(eight);
-    bst.insert(four);
-    bst.insert(eleven);
-    bst.insert(two);
     bst.insert(six);
-    bst.insert(ten);
+    bst.insert(seven);
+    bst.insert(three);
+    bst.insert(one);
+    bst.insert(two);
+    /*bst.insert(ten);
     bst.insert(thirteen);
     bst.insert(three);
     bst.insert(nine);
     bst.insert(twelve);
-    bst.insert(five);
-    bst.print();
+    bst.insert(five);*/
+    //bst.print();
     //bst.remove(6);
     //bst.remove(11);
     bst.print();

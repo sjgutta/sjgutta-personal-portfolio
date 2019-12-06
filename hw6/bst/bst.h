@@ -244,6 +244,8 @@ protected:
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
 	void remove(const Key& key);
+	void rotateRight(Node<Key, Value>* node);
+	void rotateLeft(Node<Key, Value>* node);
 	
 protected:
 	Node<Key, Value>* mRoot;
@@ -649,6 +651,48 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 		delete removing;
 		return;
 	}
+}
+
+template<typename Key, typename Value>
+void BinarySearchTree<Key, Value>::rotateRight(Node<Key, Value>* node){
+	Node<Key, Value>* child = node->getLeft();
+	if(node==mRoot){
+		mRoot = child;
+	}else{
+		if(node->getParent()->getLeft()==node){
+			node->getParent()->setLeft(child);
+		}else{
+			node->getParent()->setRight(child);
+		}
+	}
+	child->setParent(node->getParent());
+	if(child->getRight()!=nullptr){
+		child->getRight()->setParent(node);
+	}
+	node->setLeft(child->getRight());
+	child->setRight(node);
+	node->setParent(child);
+}
+
+template<typename Key, typename Value>
+void BinarySearchTree<Key, Value>::rotateLeft(Node<Key, Value>* node){
+	Node<Key, Value>* child = node->getRight();
+	if(node==mRoot){
+		mRoot = child;
+	}else{
+		if(node->getParent()->getLeft()==node){
+			node->getParent()->setLeft(child);
+		}else{
+			node->getParent()->setRight(child);
+		}
+	}
+	child->setParent(node->getParent());
+	if(child->getLeft()!=nullptr){
+		child->getLeft()->setParent(node);
+	}
+	node->setRight(child->getLeft());
+	child->setLeft(node);
+	node->setParent(child);
 }
 
 /**
