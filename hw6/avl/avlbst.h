@@ -234,10 +234,10 @@ void AVLTree<Key, Value>::remove(const Key& key)
 	if(removing->getRight()==nullptr || removing->getLeft()==nullptr){
 		action_point = removing->getParent();
 	}else{
-		action_point = removing->getLeft();
-		if(action_point->getRight()!=nullptr){
-			while(action_point->getRight()!=nullptr){
-				action_point = action_point->getRight();
+		action_point = removing->getRight();
+		if(action_point->getLeft()!=nullptr){
+			while(action_point->getLeft()!=nullptr){
+				action_point = action_point->getLeft();
 			}
 			action_point = action_point->getParent();
 		}

@@ -560,20 +560,20 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 			delete removing;
 			return;
 		}else{
-			Node<Key, Value>* swapToRoot = mRoot->getLeft();
-			bool wentRight = false;
-			while(swapToRoot->getRight()!=nullptr){
-				swapToRoot = swapToRoot->getRight();
-				wentRight = true;
+			Node<Key, Value>* swapToRoot = mRoot->getRight();
+			bool wentLeft = false;
+			while(swapToRoot->getLeft()!=nullptr){
+				swapToRoot = swapToRoot->getLeft();
+				wentLeft = true;
 			}
-			if(swapToRoot->getLeft()!=nullptr){
-				swapToRoot->getLeft()->setParent(swapToRoot->getParent());
-				if(wentRight){
-					swapToRoot->getParent()->setRight(swapToRoot->getLeft());
+			if(swapToRoot->getRight()!=nullptr){
+				swapToRoot->getRight()->setParent(swapToRoot->getParent());
+				if(wentLeft){
+					swapToRoot->getParent()->setLeft(swapToRoot->getRight());
 				}
 			}else{
-				if(wentRight){
-					swapToRoot->getParent()->setRight(nullptr);
+				if(wentLeft){
+					swapToRoot->getParent()->setLeft(nullptr);
 				}
 			}
 			swapToRoot->setParent(nullptr);
@@ -621,14 +621,21 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 		delete removing;
 		return;
 	}else{
-		Node<Key, Value>* swapToRoot = removing->getLeft();
-		bool wentRight = false;
-		while(swapToRoot->getRight()!=nullptr){
-			swapToRoot = swapToRoot->getRight();
-			wentRight = true;
+		Node<Key, Value>* swapToRoot = removing->getRight();
+		bool wentLeft = false;
+		while(swapToRoot->getLeft()!=nullptr){
+			swapToRoot = swapToRoot->getLeft();
+			wentLeft = true;
 		}
-		if(wentRight){
-			swapToRoot->getParent()->setRight(nullptr);
+		if(swapToRoot->getRight()!=nullptr){
+			swapToRoot->getRight()->setParent(swapToRoot->getParent());
+			if(wentLeft){
+				swapToRoot->getParent()->setLeft(swapToRoot->getRight());
+			}
+		}else{
+			if(wentLeft){
+				swapToRoot->getParent()->setLeft(nullptr);
+			}
 		}
 		swapToRoot->setParent(removing->getParent());
 		if(removing->getLeft()!=swapToRoot){
