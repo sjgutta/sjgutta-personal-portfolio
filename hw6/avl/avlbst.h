@@ -143,6 +143,7 @@ private:
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
 	void insert_fix(AVLNode<Key, Value>* node, AVLNode<Key, Value>* inserted);
+	void remove_fix(AVLNode<Key, Value>* node);
 	void fixHeights(AVLNode<Key, Value>* node);
 };
 
@@ -225,6 +226,60 @@ template<typename Key, typename Value>
 void AVLTree<Key, Value>::remove(const Key& key)
 {
 	// TODO
+	AVLNode<Key, Value>* removing = static_cast<AVLNode<Key, Value>* >(BinarySearchTree<Key,Value>::internalFind(key));
+	if(removing==nullptr){
+		return;
+	}
+	AVLNode<Key, Value>* action_point = removing;
+	if(removing->getRight()==nullptr || removing->getLeft()==nullptr){
+		action_point = removing->getParent();
+	}else{
+		action_point = removing->getLeft();
+		if(action_point->getRight()!=nullptr){
+			while(action_point->getRight()!=nullptr){
+				action_point = action_point->getRight();
+			}
+			action_point = action_point->getParent();
+		}
+	}
+	BinarySearchTree<Key, Value>::remove(key);
+	fixHeights(action_point);
+	remove_fix(action_point);
+}
+
+template<typename Key, typename Value>
+void AVLTree<Key, Value>::remove_fix(AVLNode<Key, Value>* node){
+	if(node == nullptr){
+		return;
+	}
+	int balance = node->getBalance();
+	if(balance < -1){
+		if(node->getLeft()->getBalance()<=0){
+			//Left Left Case
+			BinarySearchTree<Key, Value>::rotateRight(node);
+			fixHeights(node);
+		}else{
+			//Left Right Case
+			BinarySearchTree<Key, Value>::rotateLeft(node->getLeft());
+			fixHeights(node->getLeft()->getLeft());
+			BinarySearchTree<Key, Value>::rotateRight(node);
+			fixHeights(node);
+		}
+	}
+	if(balance > 1){
+		if(node->getRight()->getBalance() >= 0){
+			//Right Right Case
+			BinarySearchTree<Key, Value>::rotateLeft(node);
+			fixHeights(node);
+		}else{
+			//Right Left Case
+			BinarySearchTree<Key, Value>::rotateRight(node->getRight());
+			fixHeights(node->getRight()->getRight());
+			BinarySearchTree<Key, Value>::rotateLeft(node);
+			fixHeights(node);
+		}
+	}
+	remove_fix(node->getParent());
 }
 
 template<typename Key, typename Value>
