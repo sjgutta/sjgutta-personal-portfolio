@@ -474,6 +474,7 @@ void BinarySearchTree<Key, Value>::clear()
 {
 	// TODO
 	clearHelper(mRoot);
+	mRoot = nullptr;
 }
 
 template<typename Key, typename Value>

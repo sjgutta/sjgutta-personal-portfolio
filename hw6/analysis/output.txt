@@ -1,0 +1,4 @@
+2000 insertions
+AVL: 0.00153133 seconds
+Splay: 0.00248034 seconds
+Splay expensive: 67
