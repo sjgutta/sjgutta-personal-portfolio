@@ -19,6 +19,11 @@ int main() {
     pair<int, int> twelve(12, 12);
     pair<int, int> thirteen(13, 13);
     pair<int, int> fourteen(14, 14);
+    pair<int, int> fifteen(15, 15);
+    pair<int, int> sixteen(16, 16);
+    pair<int, int> seventeen(17, 17);
+    pair<int, int> eighteen(18, 18);
+    pair<int, int> nineteen(19, 19);
     //pair<int, int> j(9, 9);
     bst.insert(nine);
     bst.insert(six);
@@ -26,15 +31,16 @@ int main() {
     bst.insert(three);
     bst.insert(eight);
     bst.insert(eleven);
-    bst.insert(fourteen);
-    bst.insert(twelve);
+    bst.insert(seventeen);
+    bst.insert(fifteen);
+    //bst.insert(eighteen);
     /*bst.insert(thirteen);
     bst.insert(three);
     bst.insert(nine);
     bst.insert(twelve);
     bst.insert(five);*/
     bst.print();
-    bst.remove(14);
+    bst.remove(11);
     //bst.remove(10);
     //bst.remove(11);
     bst.print();

@@ -235,6 +235,7 @@ public:
 	iterator begin() const;
 	iterator end() const;
 	iterator find(const Key& key) const;
+	void remove(const Key& key);
 
 protected:
 	Node<Key, Value>* internalFind(const Key& key) const;
@@ -243,7 +244,7 @@ protected:
 	void clearHelper(Node<Key,Value>* current);
 	/* Helper functions are strongly encouraged to help separate the problem
 	   into smaller pieces. You should not need additional data members. */
-	void remove(const Key& key);
+	
 	void rotateRight(Node<Key, Value>* node);
 	void rotateLeft(Node<Key, Value>* node);
 	
