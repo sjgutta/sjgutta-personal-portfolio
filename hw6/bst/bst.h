@@ -228,14 +228,12 @@ public:
 
 	protected:
 		Node<Key, Value>* mCurrent;
-		friend class BinarySearchTree<Key, Value>;
 	};
 
 public:
-	iterator begin() const;
-	iterator end() const;
+	iterator begin();
+	iterator end();
 	iterator find(const Key& key) const;
-	void remove(const Key& key);
 
 protected:
 	Node<Key, Value>* internalFind(const Key& key) const;
@@ -247,7 +245,8 @@ protected:
 	
 	void rotateRight(Node<Key, Value>* node);
 	void rotateLeft(Node<Key, Value>* node);
-	
+	void remove(const Key& key);
+
 protected:
 	Node<Key, Value>* mRoot;
 
@@ -394,7 +393,7 @@ void BinarySearchTree<Key, Value>::print() const
 * Returns an iterator to the "smallest" item in the tree
 */
 template<typename Key, typename Value>
-typename BinarySearchTree<Key, Value>::iterator BinarySearchTree<Key, Value>::begin() const
+typename BinarySearchTree<Key, Value>::iterator BinarySearchTree<Key, Value>::begin()
 {
 	BinarySearchTree<Key, Value>::iterator begin(getSmallestNode());
 	return begin;
@@ -404,7 +403,7 @@ typename BinarySearchTree<Key, Value>::iterator BinarySearchTree<Key, Value>::be
 * Returns an iterator whose value means INVALID
 */
 template<typename Key, typename Value>
-typename BinarySearchTree<Key, Value>::iterator BinarySearchTree<Key, Value>::end() const
+typename BinarySearchTree<Key, Value>::iterator BinarySearchTree<Key, Value>::end()
 {
 	BinarySearchTree<Key, Value>::iterator end(NULL);
 	return end;
@@ -707,7 +706,7 @@ void BinarySearchTree<Key, Value>::rotateLeft(Node<Key, Value>* node){
 /**
 * Helper function to print the tree's contents
 */
-/*template<typename Key, typename Value>
+template<typename Key, typename Value>
 void BinarySearchTree<Key, Value>::printRoot (Node<Key, Value>* root) const
 {
 	if (root != NULL)
@@ -718,7 +717,7 @@ void BinarySearchTree<Key, Value>::printRoot (Node<Key, Value>* root) const
 		printRoot (root->getRight());
 		std::cout << "]";
 	}
-}*/
+}
 
 /* 
 	---------------------------------------------------

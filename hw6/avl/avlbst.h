@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
-#include "../bst/print_bst.h"
+#include "../bst/bst.h"
 
 /**
 * A special kind of node for an AVL tree, which adds the height as a data member, plus 

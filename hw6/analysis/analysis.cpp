@@ -2,6 +2,7 @@
 #include <ctime>
 #include <fstream>
 #include <vector>
+#include <string>
 #include "../avl/avlbst.h"
 #include "../splay/splay.h"
 

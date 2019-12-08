@@ -5,7 +5,7 @@
 #include <cstdlib>
 #include <string>
 #include <cmath>
-#include "../bst/print_bst.h"
+#include "../bst/bst.h"
 
 /**
 * A templated binary search tree implemented as a Splay tree.
