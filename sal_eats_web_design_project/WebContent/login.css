@@ -1,0 +1,57 @@
+@charset "UTF-8";
+#logo {
+    font-family: 'Lobster'; font-size: 50px; color: #990000; 
+    float: left;
+}
+div{
+	font-family: 'Arial';
+}
+.topnav{
+	border-bottom: 1px solid grey;
+	font-family: 'Arial';
+}
+.topnav ul{
+	list-style-type: none;
+	padding-right: 5vw; overflow: hidden; padding-bottom: 3vh;
+}
+.topnav ul li{
+	padding-left: 4vh;
+}
+.topnav ul li a {
+	text-decoration: none;
+	color: black;
+}
+li {
+    float: right; padding-top: 6vh;
+}
+
+li:first-child {
+    float: left; padding-top: 3vh; padding-left: 0vh;
+}
+.login-signup{
+	border-bottom: none; padding-top: 6vh; padding-left: 5vw; padding-right: 5vw;
+}
+.login-signup h1{
+	font-family: 'Arial'; color: grey; font-weight: normal; 
+}
+.login-signup label{
+	font-family: 'Arial'; height: 3vh; font-size: 2vh; color: grey; font-weight: normal; margin-bottom: 1vh;
+}
+.login-signup table{
+	object-fit: contain; width: 100%;
+}
+.login-input {
+	width: 100%; margin-top: 0.5vh;
+	height: 4vh; border-radius: 5px; font-size: 15px; border: 1px solid grey; margin-bottom: 3vh;
+}
+.signup-input {
+	width: 100%; margin-top: 0.3vh;
+	height: 4vh; border-radius: 5px; font-size: 15px; border: 1px solid grey; margin-bottom: 3vh;
+}
+.login-signup button{
+	height: 5.5vh; width: 100%; border-radius: 5px; border: 1px solid grey;  margin-bottom: 0.8vh;
+	color: white; font-size: 2vh; font-family: 'Arial';
+}
+.login-signup hr{
+	width: 20vw; align: center; opacity: 0.5;
+}
