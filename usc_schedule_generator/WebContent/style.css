@@ -1,0 +1,219 @@
+@font-face{ 
+    font-family : Coda;
+	src : url("/finalproject/font/Coda/Coda-ExtraBold.ttf");
+}                             
+.top{
+  position: absolute;
+  top: 20px;
+  left: 100px;
+  font-size : 50;
+  font-family : Righteous;
+}
+body {
+  background-image : url("image/background.jpg");
+}
+.Headfont{
+	font-family:"Comic Sans MS", cursive, sans-serif;
+	font-weight: bold;
+}
+.bgimage {
+  padding-top: 40px !important;
+  padding-right: 60px !important;
+  padding-bottom: 30px !important;
+  padding-left: 60px !important;
+}
+
+.bg{
+  background-image : url("image/background.jpg");
+  
+}
+.container{
+	display:flex;
+}
+
+/* Top left text */
+.top-left {
+  position: absolute;
+  top: 40px;
+  left: 100px;
+  font-size: 80px;
+  font-family : "Arial Black", Gadget, sans-serif
+  font-weight :heavy;
+}
+.dashtop-left{
+  position: absolute;
+  top: 40px;
+  left: 100px;
+  font-size: 50px;
+  font-family : Impact, Charcoal, sans-serif;
+  
+}
+.top{
+  font-size: 100px;
+  font-family : Righteous;
+}
+.top-left2{
+  position: absolute;
+  top: 150px;
+  left: 110px;
+  font-size : 30px;
+  font-family : Impact, Charcoal, sans-serif;
+  
+}
+/* Centered text */
+.centered1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.centered2 {
+  position: absolute;
+  top: 62%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.centered3 {
+  position: absolute;
+  top: 74%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.logout{
+	top:90%;
+	right:80%:
+}
+.button {
+  background-color: #636deb; 
+  border: none;
+  color: white;
+  padding: 13px 70px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.5s;
+  margin: 5px;
+  opacity : 0.9;
+  border-radius:12px;
+  font-family : "Comic Sans MS", cursive, sans-serif;
+
+}
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+.background_img{
+	background-image : url("image/background.jpg");
+	height:100%;
+}
+
+body,html{
+	height:100%;
+}
+.bg{
+	/* background-image: url('image/background.jpg'); */
+	 /* The image used */
+  background-image: url("image/background.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.body {
+	padding: 0;
+	margin: 0;
+	background: #f2f6e9;
+}
+/*--- navigation bar ---*/
+.navbar {
+	background:#FFF;
+}
+.nav-item{
+	
+}
+.nav-link,
+.navbar-brand {
+	color: #000000;
+	font-size: 20pt;
+	cursor: pointer;
+}
+.nav-link {
+	margin-right: 1em !important;
+}
+.nav-link:hover {
+	color: #000;
+}
+.navbar-collapse {
+	justify-content: space-around;
+}
+
+#main-navigation{
+	display:flex;
+	justify-content: space-around;
+	
+}
+
+
+
+.instructions{
+	display: flex;
+    flex-direction: column;
+    padding-left: 28vw;
+    padding-bottom: 24px;
+}
+
+.but{
+	
+	margin-left:7vw;
+	margin-top:1vh;
+}
+.TOD{
+	margin-left:6.38vw;
+}
+
+#time{
+	text-transform: none;
+    margin-left: 97px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

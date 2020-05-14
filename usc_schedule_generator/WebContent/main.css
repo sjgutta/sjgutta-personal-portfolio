@@ -1,0 +1,89 @@
+body,html{
+	height:100%;
+}
+.bg{
+	/* background-image: url('image/background.jpg'); */
+	 /* The image used */
+  background-image: url("image/background.jpg");
+
+  /* Full height */
+  height: 100%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.body {
+	padding: 0;
+	margin: 0;
+	background: #f2f6e9;
+}
+
+.onTop{
+	position:absolute;
+	top:50%;
+	left:50%;
+	transform: translate(-50%, -50%);
+}
+/*--- navigation bar ---*/
+.navbar {
+	background:#FFF;
+}
+.nav-item{
+	
+}
+.nav-link,
+.navbar-brand {
+	color: #000000;
+	font-size: 20pt;
+	cursor: pointer;
+}
+.nav-link {
+	margin-right: 1em !important;
+}
+.nav-link:hover {
+	color: #000;
+}
+.navbar-collapse {
+	justify-content: space-around;
+}
+
+#main-navigation{
+	display:flex;
+	justify-content: space-around;
+	
+}
+
+.inputClassForm{
+	display: flex;
+    justify-content: center;
+}
+
+.instructions{
+	display: flex;
+    flex-direction: column;
+    padding-left: 28vw;
+    padding-bottom: 24px;
+}
+
+.but{
+	margin-left: 6.38vw;
+}
+.TOD{
+	margin-left:6.38vw;
+}
+
+#time{
+	text-transform: none;
+    margin-left: 97px;
+}
+
+
+
+
+
+
+
+
+
