@@ -9,17 +9,17 @@ This was a project written for my Data Structures class. The project is written 
 When evaluating an expression, these are the rules to apply.
 
 * a constant: that value is always its numerical value.
-* an integer variable name <VAR>: the value is the value currently stored in that variable.
+* an integer variable name &lt;VAR&gt;: the value is the value currently stored in that variable.
 * an array evaluated at an integer position: the value is the array's value at the position, as described in the rules above.
-* (<AEXPR1> + <AEXPR2>): the value is the sum of the values of <AEXPR1> and <AEXPR2>.
-* (<AEXPR1> - <AEXPR2>): the value is the value of <AEXPR1> minus the value of <AEXPR2>.
-* (<AEXPR1> * <AEXPR2>): the value is the value of <AEXPR1> multiplied with the value of <AEXPR2>.
-* (<AEXPR1> / <AEXPR2>): the value is the value of <AEXPR1> divided by the value of <AEXPR2>, and rounded down to the nearest integer. (That is, the standard integer division.) If the value of <AEXPR2> is 0, then this is a division-by-0 error. The program will output an error message, including the line number where the error happened, the strings corresponding to <AEXPR1> and <AEXPR2>, and the values when the error happened. Then, the program will terminate. See below for exact format for error messages.
+* (&lt;AEXPR1&gt; + &lt;AEXPR2&gt;): the value is the sum of the values of &lt;AEXPR1&gt; and &lt;AEXPR2&gt;.
+* (&lt;AEXPR1&gt; - &lt;AEXPR2&gt;): the value is the value of &lt;AEXPR1&gt; minus the value of &lt;AEXPR2&gt;.
+* (&lt;AEXPR1&gt; * &lt;AEXPR2&gt;): the value is the value of &lt;AEXPR1&gt; multiplied with the value of &lt;AEXPR2&gt;.
+* (&lt;AEXPR1&gt; / &lt;AEXPR2&gt;): the value is the value of &lt;AEXPR1&gt; divided by the value of &lt;AEXPR2&gt;, and rounded down to the nearest integer. (That is, the standard integer division.) If the value of &lt;AEXPR2&gt; is 0, then this is a division-by-0 error. The program will output an error message, including the line number where the error happened, the strings corresponding to &lt;AEXPR1&gt; and &lt;AEXPR2&gt;, and the values when the error happened. Then, the program will terminate. See below for exact format for error messages.
 For all arithmetic expressions, the calculations should always result in integers that fit into a (signed) 32-bit integer to avoid overflows.
 
-* <AEXPR1> = <AEXPR2>: evaluates to true if <AEXPR1> and <AEXPR2> evaluate to the same number.
-* <AEXPR1> < <AEXPR2>: evaluates to true if <AEXPR1> evaluates to a (strictly) smaller number than <AEXPR2>.
-* <AEXPR1> > <AEXPR2>: evaluates to true if <AEXPR1> evaluates to a (strictly) larger number than <AEXPR2>.
+* &lt;AEXPR1&gt; = &lt;AEXPR2&gt;: evaluates to true if &lt;AEXPR1&gt; and &lt;AEXPR2&gt; evaluate to the same number.
+* &lt;AEXPR1&gt; < &lt;AEXPR2&gt;: evaluates to true if &lt;AEXPR1&gt; evaluates to a (strictly) smaller number than &lt;AEXPR2&gt;.
+* &lt;AEXPR1&gt; > &lt;AEXPR2&gt;: evaluates to true if &lt;AEXPR1&gt; evaluates to a (strictly) larger number than &lt;AEXPR2&gt;.
 
 ## Commands
 Here is some detail on the commands in the language.
@@ -101,8 +101,6 @@ In the above program, ANAKIN will get set to 1, then the program will jump to li
 3
 
 ```
-## Exmaples of pretty-printed programs and syntax
-Inside of the examples directory, you will see more examples of input programs and what the pretty printed version of them is supposed to look like, after all of the parsing is complete and the program has been represented by objects. You will also be able to see examples of how BASIC syntax should look.
 ### A detailed example of GOSUB and RETURN
 
 To understand GOSUB and RETURN a bit better, consider the following piece of code:
@@ -151,6 +149,8 @@ All in all, this would be the output:
 20
 Error in Line 30: No matching GOSUB for RETURN.
 ```
+## Exmaples of pretty-printed programs and syntax
+Inside of the examples directory, you will see more examples of input programs and what the pretty printed version of them is supposed to look like, after all of the parsing is complete and the program has been represented by objects. You will also be able to see examples of how BASIC syntax should look.
 # High-Level Approach to Implementation
 1. A separate class was made for each type of arithmetic expression. Each one inherited from one base arithmetic expression class. They all have a print function that is over-ridden for the pretty printing functionality and a getValue function that is over-ridden for when the program is actual executed. 
 2. The same approach was taken for the Boolean Expressions. These also took arithmetic expressions as data members. Both boolean expressions and arithmetic expressions are inside of the arithmetic.cpp and arithmetic.h files in the "interpreter" directory.
