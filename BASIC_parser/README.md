@@ -34,11 +34,11 @@ Here is some detail on the commands in the language.
 * END: Terminate the execution of the program. Nothing can go wrong here.
   
 ## Error Messages
-Whenever an error happens, the program prints an error message and terminates. Each error message begins with "Error in Line <LINE>: ", where <LINE> is the number of the line where the error occurred. After that, it prints an error-specific message, which will be one of the following:
-* "Division by 0: <AEXP1> = <VAL1>, <AEXP2> = <VAL2>." Here, <AEXP1> and <AEXP2> are the pretty-printed text strings for the expressions, and <VAL1> and <VAL2> are the current value. (Presumably, when an error happened, <VAL2> has a value of 0.)
-* "GOTO to non-existent line <LINEJ>." Here, <LINEJ> is the line that you were supposed to jump to, but which didn't exist.
-* "IF jump to non-existent line <LINEJ>." Again, <LINEJ> is the line that you were supposed to jump to, but which didn't exist.
-* "GOSUB to non-existent line <LINEJ>." Here, <LINEJ> is the line that you were supposed to jump to with GOSUB, but which didn't exist.
+Whenever an error happens, the program prints an error message and terminates. Each error message begins with "Error in Line &lt;LINE&gt;: ", where &lt;LINE&gt; is the number of the line where the error occurred. After that, it prints an error-specific message, which will be one of the following:
+* "Division by 0: &lt;AEXP1&gt; = &lt;VAL1&gt;, &lt;AEXP2&gt; = &lt;VAL2&gt;." Here, &lt;AEXP1&gt; and &lt;AEXP2&gt; are the pretty-printed text strings for the expressions, and &lt;VAL1&gt; and &lt;VAL2&gt; are the current value. (Presumably, when an error happened, &lt;VAL2&gt; has a value of 0.)
+* "GOTO to non-existent line &lt;LINEJ&gt;." Here, &lt;LINEJ&gt; is the line the program was supposed to jump to, but which didn't exist.
+* "IF jump to non-existent line &lt;LINEJ&gt;." Again, &lt;LINEJ&gt; is the line the program was supposed to jump to, but which didn't exist.
+* "GOSUB to non-existent line &lt;LINEJ&gt;." Here, &lt;LINEJ&gt; is the line the program was supposed to jump to with GOSUB, but which didn't exist.
 * "No matching GOSUB for RETURN."
 * In all cases, after the error message is printed, the program terminates.
 
