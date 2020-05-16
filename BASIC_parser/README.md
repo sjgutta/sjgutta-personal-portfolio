@@ -50,7 +50,6 @@ Here are some simple examples of BASIC programs, and what they would output, so 
 10 LET SOLO -9
 20 PRINT HAN
 25 PRINT SOLO
-
 ```
 
 You will need to be able to parse programs where line numbers are no longer consecutive. We only guarantee they will be positive, and in strictly increasing order (such as the above example), with execution starting at the lowest-numbered line. The above program would output:
@@ -58,7 +57,6 @@ You will need to be able to parse programs where line numbers are no longer cons
 ```text
 42
 -9
-
 ```
 
 ```text
@@ -66,7 +64,6 @@ You will need to be able to parse programs where line numbers are no longer cons
 2 GOTO 4
 3 LET YODA 2
 4 PRINT YODA
-
 ```
 
 This program would output  `1`, because by skipping line 3 (with the command  `GOTO 4`), we prevented YODA from being assigned the value 2.
@@ -77,7 +74,6 @@ This program would output  `1`, because by skipping line 3 (with the command  `G
 3 IF CHEWY < 4 THEN 5
 4 PRINT CHEWY
 5 PRINT VADER
-
 ```
 
 This will print out only 6, since line 4 is skipped over.
@@ -91,7 +87,6 @@ This will print out only 6, since line 4 is skipped over.
 6 LET ANAKIN 2
 7 LET PADME 3
 8 RETURN
-
 ```
 
 In the above program, ANAKIN will get set to 1, then the program will jump to line 6, overwriting ANAKIN with 2, setting PADME to 3, and then returning to the point it jumped from. It will then output ANAKIN, then PADME, then terminate. So the output will be
@@ -99,7 +94,6 @@ In the above program, ANAKIN will get set to 1, then the program will jump to li
 ```text
 2
 3
-
 ```
 ### A detailed example of GOSUB and RETURN
 
@@ -119,7 +113,6 @@ To understand GOSUB and RETURN a bit better, consider the following piece of cod
 110 LET N (N+1)
 120 GOSUB 90
 130 RETURN
-
 ```
 
 Let's see what happens here.
