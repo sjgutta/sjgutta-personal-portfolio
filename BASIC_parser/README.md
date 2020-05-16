@@ -24,12 +24,12 @@ For all arithmetic expressions, the calculations should always result in integer
 ## Commands
 Here is some detail on the commands in the language.
 
-* PRINT <AEXPR>: prints the value of the arithmetic expression, evaluated according to the rules above. Always prints a newline after the value.
-* LET <VAR> <AEXPR>: evaluates <AEXPR> and stores the resulting value into the variable <VAR>, overwriting the previous value if there was one.
-* LET <VAR> [<AEXPR1>] <AEXPR2>: evaluates <AEXPR2> and stores the resulting value into the array <VAR>, at the position obtained from evaluating <AEXPR1>.
-* GOTO <LINEJ>: Jump to the line <LINEJ>. Forgets which line it came from. Just resumes processing at the given line <LINEJ>. If there is no line numbered <LINEJ> in the program, it will print an error and terminate. See error messages below.
-* IF <BEXPR> THEN <LINEJ>: evaluates <BEXPR> according to the rules given above. If it comes out true, then jumps to the line <LINEJ> (as in the case of GOTO). Otherwise just advances to the next line. As for GOTO, if the target line does not exist, it will output an error. (See error messages below.) If the condition comes out false (so there's no jump), and the target line does not exist, then no error is reported, as the program can safely continue running.
-* GOSUB <LINEJ>: Jumps to the line <LINEJ>, and remembers where it came from. As for GOTO/IF, if the line <LINEJ> does not exist, then an error is printed (including the current line number and non-existing target line), and the program terminates. See below for details.
+* PRINT &lt;AEXPR&gt;: prints the value of the arithmetic expression, evaluated according to the rules above. Always prints a newline after the value.
+* LET &lt;VAR&gt; &lt;AEXPR&gt;: evaluates &lt;AEXPR&gt; and stores the resulting value into the variable &lt;VAR&gt;, overwriting the previous value if there was one.
+* LET &lt;VAR&gt; [&lt;AEXPR1&gt;] &lt;AEXPR2&gt;: evaluates &lt;AEXPR2&gt; and stores the resulting value into the array &lt;VAR&gt;, at the position obtained from evaluating &lt;AEXPR1&gt;.
+* GOTO &lt;LINEJ&gt;: Jump to the line &lt;LINEJ&gt;. Forgets which line it came from. Just resumes processing at the given line &lt;LINEJ&gt;. If there is no line numbered &lt;LINEJ&gt; in the program, it will print an error and terminate. See error messages below.
+* IF &lt;BEXPR&gt; THEN &lt;LINEJ&gt;: evaluates &lt;BEXPR&gt; according to the rules given above. If it comes out true, then jumps to the line &lt;LINEJ&gt; (as in the case of GOTO). Otherwise just advances to the next line. As for GOTO, if the target line does not exist, it will output an error. (See error messages below.) If the condition comes out false (so there's no jump), and the target line does not exist, then no error is reported, as the program can safely continue running.
+* GOSUB &lt;LINEJ&gt;: Jumps to the line &lt;LINEJ&gt;, and remembers where it came from. As for GOTO/IF, if the line &lt;LINEJ&gt; does not exist, then an error is printed (including the current line number and non-existing target line), and the program terminates. See below for details.
 * RETURN: Go back to the line immediately after the line whence the most recent GOSUB jump started. See the more detailed example below. If there has been no applicable GOSUB jump, then an error message is printed; see below for the exact message and format.
 * END: Terminate the execution of the program. Nothing can go wrong here.
   
