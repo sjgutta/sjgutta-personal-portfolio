@@ -1,15 +1,12 @@
-# Homework 6 - CSCI 104 - Problem 5 Report
-## Sajan Gutta
-## USC ID: 2725022497
-
-## For Question 1
+# AVL/Splay Tree Analysis
+## Test Cases Used in Assignment
 * I tested using test cases of multiple sizes, going from small 10 line
 text files up to text files of over 1000 lines. Three main test cases 
 were particularly instructive. I used a test case with 10 words, a test
 case with 720 words but in alphabetical order, and a test case with the 
 1000 most common english words but in random order.
 
-## For Question 2
+## Results
 1. 10 line test case
     * 20 insertions
     * AVL: 2.64e-06 seconds
@@ -27,7 +24,7 @@ case with 720 words but in alphabetical order, and a test case with the
     * Splay expensive: 67
 4. I did all the analysis of these results below
 
-## For Question 3
+## Methods Used and Analysis
 * When running the analysis, I repeated the process of inserting all the words
 into the splay and AVL trees 100 times and then averaged the durations for my
 answers. This ensured that differences didn't round to 0.
@@ -41,21 +38,20 @@ there were no splay expensive operations, likely due to the input being in alpha
 However, the avl tree required a lot of rebalancing since the input was bigger this time.
 * Finally, in the third case, the Splay Tree becomes more expensive than the AVL tree. The AVL
 definitely still required rebalancing with such a large input, but now there were splay expensive
-operations (67 to be exact). This is because the input was random this time, causing the there to
+operations (67 to be exact). This is because the input was random this time, causing there to
 be insertions far down the tree in some cases rather than there being a mostly balanced tree throughout
 the process.
 * Overall, the results were clearly impacted by the parameters. Based on the test cases I ran
 the trees both seem to function as intended.
 
-## For Question 4
-* Inserting into an unsorted list would be very fast because there is no changes in structure
+## Performance of Insertion in Other Cases
+* Unsorted List: Inserting into an unsorted list would be very fast because there are no changes in structure
 involved, you just insert at the end. It would be faster than both trees.
-* A sorted list would take a long time since a linear search must be performed every time.
+* Sorted List: A sorted list would take a long time since a linear search must be performed every time.
 Additionally, items will have to be moved over every time unless it is a linked list and not
 an array. This will take longer than both trees for insertion.
-* Inersting into a BST will be faster since it is the exact same as a splay and avl tree but 
+* Regular BST: Inersting into a BST will be faster since it is the exact same as a splay and avl tree but 
 without any rotations. However, retrieving values from the tree will be more difficult than
 a splay or an avl tree.
-* A hashtable would be faster for insertion since one just has to calculate the hash function and
-then insert the proper values at that spot in the array. There may be a little extra time for chaining
+* Hash Table (with universal hash function): A hashtable would be faster for insertion since one just has to calculate the hash function and then insert the proper values at that spot in the array. There may be a little extra time for chaining
 or probing but it will be much less than a splay or avl tree.
