@@ -45,7 +45,6 @@ ABBBA
 BAAAA
 BBBBA
 BBBBB
-
 ```
 
 1.  Expanding  `AAAAA`, we would add  `AAAAB`,  `AABAA`, and  `BAAAA`  to the heap.
@@ -63,5 +62,4 @@ It would output:
 ```text
 5
 8
-
 ```
