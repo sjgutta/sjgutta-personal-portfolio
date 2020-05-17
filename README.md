@@ -5,7 +5,7 @@ Contents of this README include my general and contact information (including re
 - I'm interested in pursuing a career in analytics, applying my Computer Science background. I'm specifically interested in the field of sports analytics.
 - Email: gutta@usc.edu or sjgutta@gmail.com
 - Cell: 321-507-8515
-- To learn more about my past experience, you can view my LinkedIN profile at https://www.linkedin.com/in/sajan-gutta/ or my resume at [LINK COMING SOON].
+- To learn more about my past experience, you can view my LinkedIN profile at https://www.linkedin.com/in/sajan-gutta/ or my resume which is in a pdf file above, located in this directory.
 
 ## Languages/APIs/Libraries
 This is not an exhaustive list but covers the languages and libraries that I have the most experience and knowledge working with.
