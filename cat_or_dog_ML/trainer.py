@@ -2,6 +2,10 @@ import tensorflow_datasets as tfds
 import tensorflow as tf
 from tensorflow import keras
 
+
+LABELS = ["cat", "dog"]
+
+
 # ds = food_train.take(1)
 # for example in ds:
 #     print(list(example.keys()))
@@ -15,9 +19,9 @@ def build_model():
     # output layer has 101 logits to represent the number of food classes
     # the middle layer is something that can be tuned
     model = keras.Sequential([
-        keras.layers.Flatten(input_shape=(512, 512)),
+        keras.layers.Flatten(input_shape=(224, 224, 3)),
         keras.layers.Dense(128, activation='relu'),
-        keras.layers.Dense(101)
+        keras.layers.Dense(2)
     ])
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -35,58 +39,56 @@ def test_batching(dataset):
     return train_batch
 
 
-def get_batch(dataset):
-    train_batch = dataset.padded_batch(10, padded_shapes={'image': [512, 512, 3], 'label': []})
-    # print(train_batch['image'])
-    # print(train_batch['label'])
-    return train_batch
+def save_model(trained_model, filename):
+    trained_model.save(f"{filename}.h5")
+    print(f"Saved model to {filename}.h5")
 
-# def save_model():
-#
-#
-# def load_saved_model():
-#
-#
+
+def load_saved_model(filename):
+    loaded_model = tf.keras.models.load_model(filename)
+    return loaded_model
 
 
 def load_data():
-    food_data, info = tfds.load("food101", with_info=True)
-    training_data, testing_data = food_data["train"], food_data["validation"]
+    training_data, info = tfds.load("cats_vs_dogs", split="train[80%:]", with_info=True, as_supervised=True)
+    print(info)
+    testing_data = tfds.load("cats_vs_dogs", split="train[:80%]", as_supervised=True)
     assert isinstance(training_data, tf.data.Dataset)
     assert isinstance(testing_data, tf.data.Dataset)
     return training_data, testing_data
 
 
 def train_model(model, training_dataset, testing_dataset):
-    model.fit(
-        tuple(training_dataset.shuffle(101000).padded_batch(10, padded_shapes={'image': [512, 512, 3], 'label': []})),
-        epochs=20,
-        validation_data=testing_dataset.padded_batch(10, padded_shapes={'image': [512, 512, 3], 'label': []}),
-        verbose=1)
+    model.fit(training_dataset, epochs=20, validation_data=testing_dataset, verbose=1)
+
+
+def image_formatter(image, label):
+    image = tf.cast(image, tf.float32)
+    image = image / 255.0
+    image = tf.image.resize(image, (224, 224))
+    return image, label
+
+
+def batch_and_map_ds(dataset):
+    return dataset.map(image_formatter).batch(25)
+
+
+def show_examples():
+    dataset, ds_info = tfds.load("cats_vs_dogs", with_info=True)
+    tfds.show_examples(dataset, ds_info)
 
 
 # def classify_image():
 #
 #
 
-
-def get_labels_array():
-    with open("labels.txt") as f:
-        lines = (line.rstrip() for _, line in zip(range(101), f.readlines()))
-        for line in lines:
-            print(line)
-
-
-train_data, validation_data, test_data = tfds.load(
-    name="imdb_reviews",
-    split=('train[:60%]', 'train[60%:]', 'test'),
-    as_supervised=True)
-print(train_data)
-train_data, test_data = load_data()
-print(train_data)
-batch = get_batch(train_data)
-print(batch)
+training_data, test_data = load_data()
+batched_training_data = batch_and_map_ds(training_data)
+batched_test_data = batch_and_map_ds(test_data)
+print(batched_training_data)
 model = build_model()
-# train_model(model, train_data, test_data)
-# TODO: save model properly after training
+print("training model")
+train_model(model, batched_training_data, batched_test_data)
+print("model trained")
+save_model(model)
 # TODO: load model properly after saving to a file
