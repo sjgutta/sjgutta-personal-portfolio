@@ -11,12 +11,13 @@ class Window(Tk):
     def __init__(self):
         super(Window, self).__init__()
         self.title("Cat/Dog Image Classifier by Sajan Gutta")
-        lbl = Label(self, text="Click below to select an image to classify:", font=("Arial Bold", 20))
-        self.geometry('500x500')
+        lbl = Label(self, text="Click below to select an image to classify:", font=("Arial Bold", 20), fg="red")
         lbl.grid(column=0, row=0, padx=10)
 
+        ttk.Separator(self, orient=HORIZONTAL).grid(row=1, columnspan=5, sticky="ew")
+
         self.labelFrame = ttk.LabelFrame(self, text="Open File")
-        self.labelFrame.grid(column=0, row=1, padx=20, pady=20)
+        self.labelFrame.grid(column=0, row=2, padx=20, pady=20)
 
         classify_button = ttk.Button(self, text="Classify Image", command=self.classify)
         classify_button.grid(column=0, row=5)
@@ -24,7 +25,7 @@ class Window(Tk):
         result_label = Label(self, text="Your image is a:", font=("Arial Bold", 15))
         result_label.grid(column=0, row=10)
 
-        self.classified_label = Label(self, text="HI", font=("Arial", 15))
+        self.classified_label = Label(self, text="Result here", font=("Arial", 15))
         self.classified_label.grid(column=0, row=11)
 
         self.error_label = Label(self, text="", font=("Arial Bold", 15), fg="red")
