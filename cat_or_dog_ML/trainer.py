@@ -2,18 +2,9 @@ import numpy as np
 import tensorflow_datasets as tfds
 import tensorflow as tf
 from tensorflow import keras
-from PIL import Image
 
 
 LABELS = ["cat", "dog"]
-
-
-# ds = food_train.take(1)
-# for example in ds:
-#     print(list(example.keys()))
-#     image = example["image"]
-#     label = example["label"]
-#     print(image.shape, label)
 
 
 def build_model():
@@ -25,6 +16,28 @@ def build_model():
         keras.layers.Dense(128, activation='relu'),
         keras.layers.Dense(1)
     ])
+    model.compile(optimizer='adam',
+                  loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
+                  metrics=['accuracy'])
+    return model
+
+
+def build_better_model():
+    model = keras.Sequential([
+        keras.layers.Conv2D(16, 3, padding='same', activation='relu',
+                            input_shape=(224, 224, 3)),
+        keras.layers.MaxPooling2D(),
+        keras.layers.Dropout(0.2),
+        keras.layers.Conv2D(32, 3, padding='same', activation='relu'),
+        keras.layers.MaxPooling2D(),
+        keras.layers.Conv2D(64, 3, padding='same', activation='relu'),
+        keras.layers.MaxPooling2D(),
+        keras.layers.Dropout(0.2),
+        keras.layers.Flatten(),
+        keras.layers.Dense(512, activation='relu'),
+        keras.layers.Dense(1)
+    ])
+
     model.compile(optimizer='adam',
                   loss=tf.keras.losses.BinaryCrossentropy(from_logits=True),
                   metrics=['accuracy'])
@@ -87,22 +100,47 @@ def classify_image(model_filename, img_filename):
     img = tf.image.resize(img, [224, 224])
     img = np.expand_dims(img, 0)
     model = load_saved_model(model_filename)
-    probability_model = tf.keras.Sequential([model, tf.keras.layers.Softmax()])
-    predictions_single = probability_model.predict(img)
-    return int(predictions_single)
+    predictions_single = model.predict(img)
+    if predictions_single >= 0:
+        return 1
+    else:
+        return 0
 
 
+def check_test_data_predictions(model, ds):
+    correct = 0
+    wrong = 0
+    for example in ds:
+        row = example[0]
+        labels = example[1]
+        for item, label in zip(row, labels):
+            # print(item)
+            img = np.expand_dims(item, 0)
+            print(model.predict(img))
+            prediction = model.predict(img)
+            if prediction > 0 and label == 1:
+                correct += 1
+            elif prediction < 0 and label == 0:
+                correct += 1
+            else:
+                wrong += 1
+    print(f"Correct: {correct}")
+    print(f"Wrong: {wrong}")
+
+
+# Code to load data and batch properly using functions above
 # training_data, test_data = load_data()
 # batched_training_data = batch_and_map_ds(training_data)
 # batched_test_data = batch_and_map_ds(test_data)
-# model = build_model()
-# print("training model")
-# train_model(model, batched_training_data, batched_test_data, epochs=15)
-# print("model trained")
-# save_model(model, "first_try")
-# TODO: load model properly after saving to a file
-# model = load_saved_model("first_try.h5")
+
+# Code to build, train, and save model
+# model = build_better_model()
+# train_model(model, batched_training_data, batched_test_data, epochs=10)
+# save_model(model, "sigmoid_try")
+
+# Code to load and evaluate model
+# model = load_saved_model([INSERT FILENAME HERE])
+# check_test_data_predictions(model, ds)
 # print(model.summary())
 # model.evaluate(batched_test_data, verbose=2)
-
-classify_image("first_try.h5", "simba.jpg")
+# model.evaluate(ds, verbose=2)

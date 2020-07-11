@@ -41,7 +41,7 @@ class Window(Tk):
         try:
             filename = self.filename
             print(filename)
-            result = classify_image("first_try.h5", filename)
+            result = classify_image("current_model.h5", filename)
             self.classified_label.configure(text=f"{LABELS[result]}!")
             self.error_label.configure(text="")
         except AttributeError:
