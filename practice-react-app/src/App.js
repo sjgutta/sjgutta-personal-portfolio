@@ -36,17 +36,23 @@ const storiesReducer = (state, action) =>
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState('search', 'React');
 
+  const [url, setUrl] = React.useState(
+    `${API_ENDPOINT}${searchTerm}`
+  );
+
   const [stories, dispatchStories] = React.useReducer(
     storiesReducer, 
     {data : [], isLoading: false, isError: false }
   );
 
-  React.useEffect(() => {
+  const handleFetchStories = React.useCallback(() => {
+    if (!searchTerm) return;
+
     dispatchStories({
       type: 'STORIES_FETCH_INIT'
     });
 
-    fetch(`${API_ENDPOINT}react`).then(response => response.json())
+    fetch(url).then(response => response.json())
       .then(result => {
         dispatchStories({
           type: 'STORIES_FETCH_SUCCESS',
@@ -57,7 +63,11 @@ const App = () => {
           type: 'STORIES_FETCH_FAILURE'
         })
       );
-  }, []);
+  }, [url]);
+
+  React.useEffect(() => {
+    handleFetchStories();
+  }, [handleFetchStories]);
 
   const handleRemoveStory = item => {
     dispatchStories({
@@ -66,21 +76,25 @@ const App = () => {
     });
   };
 
-  const handleSearch = event => {
+  const handleSearchInput = event => {
     setSearchTerm(event.target.value);
   };
 
-  const searchedStories = stories.data.filter(story =>
-    story.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleSearchSubmit = () => {
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
+  };
 
   return (
     <div>
       <h1>My Hacker Stories</h1>
 
-      <InputWithLabel id="search" value={searchTerm} isFocused onInputChange={handleSearch}>
+      <InputWithLabel id="search" value={searchTerm} isFocused onInputChange={handleSearchInput}>
         <strong>Search:</strong>
       </InputWithLabel>
+
+      <button type="button" disabled={!searchTerm} onClick={handleSearchSubmit}>
+        Submit
+      </button>
 
       <hr />
 
@@ -89,7 +103,7 @@ const App = () => {
       {stories.isLoading ? (
         <p>Loading ...</p>
       ): (
-        <List list={searchedStories} onRemoveItem={handleRemoveStory} />
+        <List list={stories.data} onRemoveItem={handleRemoveStory} />
       )}
     </div>
   );
