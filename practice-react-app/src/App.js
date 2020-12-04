@@ -16,7 +16,6 @@ const useSemiPersistentState = (key, initialState) => {
     if (!isMounted.current) {
       isMounted.current = true;
     } else {
-      console.log('A');
       localStorage.setItem(key, value);
     }
   }, [value, key]);
@@ -91,12 +90,12 @@ const App = () => {
     handleFetchStories();
   }, [handleFetchStories]);
 
-  const handleRemoveStory = item => {
+  const handleRemoveStory = React.useCallback(item => {
     dispatchStories({
       type: 'REMOVE_STORY',
       payload: item,
     });
-  };
+  }, []);
 
   const handleSearchInput = event => {
     setSearchTerm(event.target.value);
@@ -107,6 +106,8 @@ const App = () => {
 
     event.preventDefault();
   };
+
+  console.log('B:App');
 
   return (
     <div className="container">
@@ -188,14 +189,16 @@ const InputWithLabel = ({
   );
 };
 
-const List = ({ list, onRemoveItem }) =>
+const List = React.memo(({ list, onRemoveItem }) =>
+  console.log('B:List') || 
   list.map(item => (
     <Item
       key={item.objectID}
       item={item}
       onRemoveItem={onRemoveItem}
     />
-  ));
+  ))
+);
 
 const Item = ({ item, onRemoveItem }) => (
   <div className="item">
