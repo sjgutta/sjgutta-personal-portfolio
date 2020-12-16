@@ -10,6 +10,26 @@ const getUrl = searchTerm => `${API_ENDPOINT}${searchTerm}`;
 
 const extractSearchTerm = url => url.replace(API_ENDPOINT, '');
 
+const getLastSearches = urls =>
+  urls
+    .reduce((result, url, index) => {
+      const searchTerm = extractSearchTerm(url);
+
+      if (index === 0) {
+        return result.concat(searchTerm);
+      }
+
+      const previousSearchTerm = result[result.length - 1];
+
+      if (searchTerm === previousSearchTerm) {
+        return result;
+      } else {
+        return result.concat(searchTerm);
+      }
+    }, [])
+    .slice(-6)
+    .slice(0, -1);
+
 const useSemiPersistentState = (key, initialState) => {
   const isMounted = React.useRef(false);
 
