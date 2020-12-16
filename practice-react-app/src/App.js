@@ -130,7 +130,7 @@ const App = () => {
   };
 
   const handleSearchSubmit = event => {
-    handleSearchInput(searchTerm);
+    handleSearch(searchTerm);
 
     event.preventDefault();
   };
@@ -160,6 +160,13 @@ const App = () => {
         onSearchSubmit={handleSearchSubmit}
       />
 
+      <LastSearches
+        lastSearches={lastSearches}
+        onLastSearch={handleLastSearch}
+      />
+
+      <hr />
+
       {stories.isError && <p>Something went wrong ...</p>}
 
       {stories.isLoading ? (
@@ -170,6 +177,20 @@ const App = () => {
     </div>
   );
 };
+
+const LastSearches = ({ lastSearches, onLastSearch }) => (
+  <>
+    {lastSearches.map((searchTerm, index) => (
+      <button
+        key={searchTerm + index}
+        type="button"
+        onClick={() => onLastSearch(searchTerm)}
+      >
+        {searchTerm}
+      </button>
+    ))}
+  </>
+);
 
 const SearchForm = ({
   searchTerm,
