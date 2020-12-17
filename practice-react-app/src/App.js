@@ -68,7 +68,8 @@ const storiesReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: false,
-        data: action.payload,
+        data: action.payload.list,
+        page: action.payload.page
       };
     case 'STORIES_FETCH_FAILURE':
       return {
@@ -98,11 +99,11 @@ const App = () => {
     'React'
   );
 
-  const [urls, setUrls] = React.useState([getUrl(searchTerm)]);
+  const [urls, setUrls] = React.useState([getUrl(searchTerm, 0)]);
 
   const [stories, dispatchStories] = React.useReducer(
     storiesReducer,
-    { data: [], isLoading: false, isError: false }
+    { data: [], page: 0, isLoading: false, isError: false }
   );
 
   const handleFetchStories = React.useCallback(async () => {
@@ -114,7 +115,10 @@ const App = () => {
 
       dispatchStories({
         type: 'STORIES_FETCH_SUCCESS',
-        payload: result.data.hits,
+        payload: {
+          list: result.data.hits,
+          page: result.data.page
+        },
       });
     } catch {
       dispatchStories({ type: 'STORIES_FETCH_FAILURE' });
@@ -137,19 +141,19 @@ const App = () => {
   };
 
   const handleSearchSubmit = event => {
-    handleSearch(searchTerm);
+    handleSearch(searchTerm, 0);
 
     event.preventDefault();
   };
 
   const handleLastSearch = searchTerm => {
-    setSearchTerm(searchTerm);
+    setSearchTerm(searchTerm, 0);
 
     handleSearch(searchTerm);
   };
 
-  const handleSearch = searchTerm => {
-    const url = getUrl(searchTerm);
+  const handleSearch = (searchTerm, page) => {
+    const url = getUrl(searchTerm, page);
     setUrls(urls.concat(url));
   };
 
