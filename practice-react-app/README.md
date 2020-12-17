@@ -2,6 +2,10 @@
 
 This directory contains the code for a practice application I built while learning React. I came into this project with a few years of web development experience and proficiency in HTML, CSS, JavaScript, etc. This React application was built while working through "The Road to React: Your journey yo master plain yet pragmatic React.js." The book is written by Robin Wieruch and can be found [here](https://www.amazon.com/Road-learn-React-pragmatic-React-js-ebook/dp/B077HJFCQX/ref=sr_1_1_sspa?dchild=1&keywords=react%20book&qid=1606535472&sr=8-1-spons&psc=1&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUExU0swNzFYWVo0TFQwJmVuY3J5cHRlZElkPUEwNzYwODkzQUo3MjhNUVVQWEE4JmVuY3J5cHRlZEFkSWQ9QTA3OTgzMjNKRUlETTk3NTg2V1Umd2lkZ2V0TmFtZT1zcF9hdGYmYWN0aW9uPWNsaWNrUmVkaXJlY3QmZG9Ob3RMb2dDbGljaz10cnVl).
 
+# Tutorial Final Product
+The final product of the practice application was a simple React web application for searching the HackerRank News API. Below you'll find a screenshot of the main page of the application. There is also a comprehensive lists of concepts covered while implementing this and learning React.
+![alt text](readme-images/homepage.png)
+
 # React Fundamentals Concepts Learned
 **Below are some key Fundamental React concepts I learned throughout implementing this practice application.**
 1. Setting up a React Project (using Visual Studio Code, npm, etc.)
