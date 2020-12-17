@@ -4,11 +4,18 @@ import { sortBy } from 'lodash';
 import './App.css'
 import { ReactComponent as Check } from './check.svg'
 
-const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
+const API_BASE = 'https://hn.algolia.com/api/v1';
+const API_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
+const PARAM_PAGE = 'page=';
 
-const getUrl = searchTerm => `${API_ENDPOINT}${searchTerm}`;
+const getUrl = (searchTerm, page) =>
+  `${API_BASE}${API_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}`;
 
-const extractSearchTerm = url => url.replace(API_ENDPOINT, '');
+const extractSearchTerm = url =>
+url
+  .substring(url.lastIndexOf('?') + 1, url.lastIndexOf('&'))
+  .replace(PARAM_SEARCH, '');
 
 const getLastSearches = urls =>
   urls
