@@ -24,3 +24,29 @@ This directory contains the code for a practice application I built while learni
 18. Data Fetching and Re-Fetching in React
 19. Memoized Handlers
 20. Using Third-Party Libraries in React and much more!
+
+# React Styling Strategies Learned
+1. Using standard CSS in React
+2. Making use of CSS modules
+3. Creating Styled Components in React
+4. Using SVGs in React
+
+# React Performance Strategies Learned
+1. How to avoid unecessary runs on first render
+2. Using React.memo and React.useCallback to avoid re-rendering if not needed
+3. Using React.memo to avoid re-running expensive computations if not necessary
+
+# React Maintenance Strategies
+1. Using TypeScript to ensure type safety and code clarity in a React project
+2. Performing Unit Testing in a React Application to ensure individual functions/components are working
+3. Implementing Integration tests to make sure blocks of code work well together
+4. Implementing end-to-end tests that simulate a user scenario (used Jest and React Testing Library)
+5. Using snapshot tests to be aware of changes to components before committing code
+6. Learned various React Project Structure options, proper utilization of JavaScript's import and export statements in a React project
+
+# Advanced React Features
+**These were more advanced React features that were implemented as part of exercises in the book.**
+1. Sorting and Reverse sorting of results displayed in the application
+2. Remembering last 5 searches in the application
+3. Showing results in paginated format
+4. Learned how to deploy a React application through Firebase
