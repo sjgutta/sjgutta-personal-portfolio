@@ -147,9 +147,15 @@ const App = () => {
   };
 
   const handleLastSearch = searchTerm => {
-    setSearchTerm(searchTerm, 0);
+    setSearchTerm(searchTerm);
 
-    handleSearch(searchTerm);
+    handleSearch(searchTerm, 0);
+  };
+
+  const handleMore = () => {
+    const lastUrl = urls[urls.length - 1];
+    const searchTerm = extractSearchTerm(lastUrl);
+    handleSearch(searchTerm, stories.page + 1);
   };
 
   const handleSearch = (searchTerm, page) => {
