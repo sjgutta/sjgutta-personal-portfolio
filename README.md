@@ -39,7 +39,6 @@ During the school year at USC, I have been working part-time as a Backend Develo
   - Final touches and deployment of this task are still pending due to coronavirus limiting user interaction data.
 * Implemented popularity metrics for Venues and Event objects. These are useful for numerous views and for recommendations.
 * Helped integrate an API with live COVID testing/case data into new COVID page at https://app.discotech.me/covid.
-* Created an event prioritization system/metric to determine the order in which events scraped from venue's website should be reviewed before being pushed live to Discotech's site.
 * Implemented test system in pytest to ensure that models in Python Backend code always match with our MySQL database schemas.
 * Used Flask caching for optimizations that reduced Discotech's average API response times by over 25%.
 * Designed and implemented an object oriented redirect system for Discotech's web application. Many of the old links for venues, cities, events, etc. have been changed but we don't want existing links to break.
@@ -48,7 +47,6 @@ During the school year at USC, I have been working part-time as a Backend Develo
 * Implemented asynchronous task to check for broken tickets links, generate an HTML report, and email it to the ops team. Utilized multithreading to improve task speed.
 * Built a Python tool to perform mass updates (e.g. removing a specific contact form from 100's of pages at once without manually clicking through them all) of the Discotech Wordpress site via the WordPress API.
 * Helped migrate an assigned section of the codebase to Python 3 before the Python 2 end of life.
-* Implemented asynchronous methods to compare event images when doing event scraping and prevent flagging a repeated image with different link as a change.
 * In addition to the tasks above, I consistenly help out with other smaller tasks such as refactoring sections of code, identifying and fixing bugs, or making improvements to existing features.
 
 ## Northrop Grumman Role
